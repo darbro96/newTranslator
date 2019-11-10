@@ -9,12 +9,11 @@
 <body ng-app="translator" ng-controller="controller">
 	<div id="Container">
 		<div id="gora">
-				<img src="logods.svg" width="20%" />
-				<img src="flagENG.png" width="5%" />
-				<img src="flagGER.png" width="5%" />
-				<img src="flagITA.png" width="5%" />
-				<img src="flagSPA.png" width="5%" />
-			<div><button ng-click="setEn()">EN</button><button ng-click="setDe()">DE</button></div>
+				<img src="img/logods.png" width="20%" />
+				<img src="img/flagENG.png" width="5%" ng-click="setEn()"/>
+				<img src="img/flagGER.png" width="5%" ng-click="setDe()"/>
+<!--				<img src="img/flagITA.png" width="5%" />-->
+<!--				<img src="img/flagSPA.png" width="5%" />-->
 					
 		</div>
 		<div id="lewo">
@@ -27,7 +26,7 @@
 
 		</div>
 		<div id="prawo"><br><br><br><br>
-			<img src="img2.png" width="10%" />
+			<img src="img/img2.png" width="10%" />
 			<div class="{{r.messageType}}" data-ng-repeat="r in receivedText">
 <!--				Odebrano <b> {{r.timeStamp}} </b><br>-->
 <!--				Treść: <b>{{r.content}}</b>-->

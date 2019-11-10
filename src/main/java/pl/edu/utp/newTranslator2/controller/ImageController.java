@@ -16,7 +16,7 @@ import java.nio.file.Files;
 public class ImageController {
     @RequestMapping("/{name}")
     public ResponseEntity<byte[]> getImage(@PathVariable("name") String name) throws IOException {
-        File img = new File("src/main/resources/static/views/img/"+name);
+        File img = new File("src/main/resources/static/img/"+name);
         return ResponseEntity.ok().contentType(MediaType.valueOf(FileTypeMap.getDefaultFileTypeMap().getContentType(img))).body(Files.readAllBytes(img.toPath()));
     }
 }
