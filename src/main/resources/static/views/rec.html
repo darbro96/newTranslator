@@ -21,34 +21,10 @@
 				Chcę klucz do pokoju
 			</div>
 			<div class="przycisk">
-				Pokój
+				<div ng-click="odpowiedz('Tak')">Tak.</div>
 			</div>
 			<div class="przycisk">
-				Rezerwacja prania
-			</div>
-			<div class="przycisk">
-				Brak prądu
-			</div>
-			<div class="przycisk">
-				Chcę klucz do pokoju
-			</div>
-			<div class="przycisk">
-				Chcę klucz do pokoju
-			</div>
-			<div class="przycisk">
-				Chcę klucz do pokoju
-			</div>
-			<div class="przycisk">
-				Chcę klucz do pokoju
-			</div>
-			<div class="przycisk">
-				Chcę klucz do pokoju
-			</div>
-			<div class="przycisk">
-				Chcę klucz do pokoju
-			</div>
-			<div class="przycisk">
-				Chcę klucz do pokoju
+				<div ng-click="odpowiedz('Nie')">Nie.</div>
 			</div>
 
 		</div>
@@ -73,6 +49,7 @@
 <!--				tresc-->
 <!--			</div>-->
 			<div id="wpisz">
+				<button ng-click="clear()">WYCZYŚĆ</button>
 			<input type="text" value="Wprowadz tekst..." ng-model="tresc"><input type="button" value=">" ng-click="odpowiedz()">
 			</div>
 
@@ -87,7 +64,7 @@
 				//$http.get("/api/getMessages/code="+$scope.code).then(function (value) {
 					$http.get("/api/all").then(function (value) {
 					$scope.receivedText = value.data;
-					console.log("ok", value);
+					//console.log("ok", value);
 				}), function (err) {
 					console.log("err", err);
 				};
@@ -119,6 +96,14 @@
 				};
 			};
 
+			$scope.odpowiedz = function (text) {
+				$http.post("/api/send/type=REPLY/code=" + "ABC-DEF" + "/message=" + text.replace(" ", "%20")).then(function (value) {
+					console.log("ok", value);
+				}), function (err) {
+					console.log("err", err);
+				};
+			};
+
 			$scope.generujKod = function () {
 				$http.get("api/reception/generate").then(function (value) {
 					console.log("code", value.data.code);
@@ -127,6 +112,15 @@
 					console.log("err", err);
 				};
 			};
+
+			$scope.clear=function()
+			{
+				$http.delete("/api/del/all").then(function (value) {
+					console.log("ok", "deleted All");
+				}), function (err) {
+					console.log("err", err);
+				};
+			}
 		});
 
 	</script>
