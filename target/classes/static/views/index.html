@@ -1,0 +1,164 @@
+<html>
+<head><title>UTP Translate</title>
+<link rel="stylesheet" href="views/style/main.css" type="text/css">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
+	<script type="text/javascript" src="../js/lib/angular.min.js"></script>
+</head>
+
+<body ng-app="translator" ng-controller="controller">
+	<div id="Container">
+		<div id="gora">
+				<img src="logods.svg" width="20%" />
+				<img src="flagENG.png" width="5%" />
+				<img src="flagGER.png" width="5%" />
+				<img src="flagITA.png" width="5%" />
+				<img src="flagSPA.png" width="5%" />
+			<div><button ng-click="setEn()">EN</button><button ng-click="setDe()">DE</button></div>
+					
+		</div>
+		<div id="lewo">
+			<div class="przycisk">
+				Chcę klucz do pokoju
+			</div>
+			<div class="przycisk" data-ng-repeat="q in faq">
+				<div ng-click="odpFaq(q)">{{q}}</div>
+			</div>
+
+		</div>
+		<div id="prawo"><br><br><br><br>
+			<img src="img2.png" width="10%" />
+			<div class="{{r.messageType}}" data-ng-repeat="r in receivedText">
+<!--				Odebrano <b> {{r.timeStamp}} </b><br>-->
+<!--				Treść: <b>{{r.content}}</b>-->
+<!--				<button ng-click="usun(r.id)">Usuń</button>-->
+				{{r.content}}
+			</div>
+<!--			<div class="wiadomoscOne">-->
+<!--				tresc-->
+<!--			</div>-->
+<!--			<div class="wiadomoscTwo">-->
+<!--				tresc-->
+<!--			</div>-->
+<!--			<div class="wiadomoscOne">-->
+<!--				tresc-->
+<!--			</div>-->
+<!--			<div class="wiadomoscTwo">-->
+<!--				tresc-->
+<!--			</div>-->
+			<div id="wpisz">
+			<input type="text" value="Wprowadz tekst..." ng-model="tresc"><input type="button" value=">" ng-click="odpowiedz()">
+			</div>
+
+			
+		</div>
+	</div>
+	<script type="text/javascript">
+		angular.module('translator', []).controller('controller', function ($scope, $http) {
+			$scope.receivedText = "";
+			$scope.faq="";
+			$scope.actLang="en";
+			$scope.room="Room";
+			$scope.bookingWashing="Booking washing";
+
+			$http.get("/api/faq/"+$scope.actLang).then(function (value) {
+				$scope.faq = value.data;
+				console.log("FAQ loaded", value);
+			}), function (err) {
+				console.log("err - FAQ", err);
+			};
+
+			setInterval(function () {
+				//$http.get("/api/getMessages/code="+$scope.code).then(function (value) {
+					$http.get("/api/all/"+$scope.actLang).then(function (value) {
+					$scope.receivedText = value.data;
+					//console.log("ok", value);
+				}), function (err) {
+					console.log("err", err);
+				};
+			}, 1000);
+
+			$scope.usun = function (id) {
+				$http.delete("/api/del/" + id).then(function (value) {
+					console.log("ok", "deleted selected message");
+				}), function (err) {
+					console.log("err", err);
+				};
+				//location.reload();
+			};
+
+			$scope.usunAll = function () {
+				$http.delete("/api/del/all").then(function (value) {
+					console.log("ok", "deleted All");
+				}), function (err) {
+					console.log("err", err);
+				};
+				//location.reload();
+			};
+
+			$scope.odpowiedz = function () {
+				$http.post("/api/send/type=MESSAGE/code=" + "ABC-DEF/"+$scope.actLang + "/message=" + $scope.tresc.replace(" ", "%20")).then(function (value) {
+					console.log("ok", value);
+				}), function (err) {
+					console.log("err", err);
+				};
+			};
+
+			$scope.generujKod = function () {
+				$http.get("api/reception/generate").then(function (value) {
+					console.log("code", value.data.code);
+					$scope.code=value.data.code;
+				}), function (err) {
+					console.log("err", err);
+				};
+			};
+
+			$scope.setEn=function () {
+				$scope.actLang="en";
+                $scope.room="Room";
+                $scope.bookingWashing="Booking washing";
+
+				$http.get("/api/faq/"+$scope.actLang).then(function (value) {
+					$scope.faq = value.data;
+					console.log("FAQ loaded", value);
+				}), function (err) {
+					console.log("err - FAQ", err);
+				};
+			};
+
+			$scope.setDe=function () {
+				$scope.actLang="de";
+                $scope.room="Zimmer";
+                $scope.bookingWashing="Buchung waschen";
+
+				$http.get("/api/faq/"+$scope.actLang).then(function (value) {
+					$scope.faq = value.data;
+					console.log("FAQ loaded", value);
+				}), function (err) {
+					console.log("err - FAQ", err);
+				};
+			};
+
+			$scope.roomMessage=function() {
+			    var nr=prompt("Numer pokoju:");
+			    var wiadomosc="Pokój "+nr;
+                $http.post("/api/send/type=MESSAGE/code=" + "ABC-DEF/"+$scope.actLang + "/message=" + wiadomosc.replace(" ", "%20")).then(function (value) {
+                    console.log("Send Pokój "+nr, value);
+                }), function (err) {
+                    console.log("err", err);
+                };
+            };
+
+			$scope.odpFaq=function(text){
+				// console.log("odp FAQ",text);
+				$http.post("/api/send/type=MESSAGE/code=" + "ABC-DEF/"+$scope.actLang + "/message=" + text.replace(" ", "%20")).then(function (value) {
+					console.log("odpFAQ", value);
+				}), function (err) {
+					console.log("err", err);
+				};
+			}
+		});
+
+	</script>
+</body>
+</html>
