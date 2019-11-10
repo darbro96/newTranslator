@@ -62,7 +62,7 @@ public class RestController {
     @GetMapping("/faq/{lang}")
     public List<String> getFaq(@PathVariable("lang") String lang) {
         List<String> list = new ArrayList<>();
-        File file = new File(getClass().getClassLoader().getResource("\\static\\faq_" + lang + ".txt").getFile());
+        File file = new File("faq_" + lang + ".txt");
         try(BufferedReader reader=new BufferedReader(new FileReader(file)))
         {
             String line=reader.readLine();
