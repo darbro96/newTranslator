@@ -62,22 +62,16 @@ public class RestController {
     @GetMapping("/faq/{lang}")
     public List<String> getFaq(@PathVariable("lang") String lang) {
         List<String> list = new ArrayList<>();
-        try {
-            URL url = getClass().getClassLoader().getResource("\\static\\faq_"+lang+".txt");
-            File file = Paths.get(url.toURI()).toFile();
-            try(BufferedReader reader=new BufferedReader(new FileReader(file)))
+        File file = new File(getClass().getClassLoader().getResource("\\static\\faq_" + lang + ".txt").getFile());
+        try(BufferedReader reader=new BufferedReader(new FileReader(file)))
+        {
+            String line=reader.readLine();
+            while(line!=null)
             {
-                String line=reader.readLine();
-                while(line!=null)
-                {
-                    list.add(line);
-                    line=reader.readLine();
-                }
-            } catch (IOException e) {
-                list = Arrays.asList("Pokój","Klucz do pralki","Brak prądu","Przepalona żarówka","Czy administracja jest otwarta?");
-                e.printStackTrace();
+                list.add(line);
+                line=reader.readLine();
             }
-        } catch (URISyntaxException e) {
+        } catch (IOException e) {
             list = Arrays.asList("Pokój","Klucz do pralki","Brak prądu","Przepalona żarówka","Czy administracja jest otwarta?");
             e.printStackTrace();
         }
