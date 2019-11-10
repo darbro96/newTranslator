@@ -63,7 +63,7 @@ public class RestController {
     public List<String> getFaq(@PathVariable("lang") String lang) {
         List<String> list = new ArrayList<>();
         try {
-            URL url = getClass().getClassLoader().getResource("faq_"+lang+".txt");
+            URL url = getClass().getClassLoader().getResource("\\static\\faq_"+lang+".txt");
             File file = Paths.get(url.toURI()).toFile();
             try(BufferedReader reader=new BufferedReader(new FileReader(file)))
             {
