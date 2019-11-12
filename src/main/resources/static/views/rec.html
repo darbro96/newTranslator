@@ -88,24 +88,6 @@
 				}
 			}, 1000);
 
-			$scope.usun = function (id) {
-				$http.delete("/api/del/" + id).then(function (value) {
-					console.log("ok", "deleted selected message");
-				}), function (err) {
-					console.log("err", err);
-				};
-				//location.reload();
-			};
-
-			$scope.usunAll = function () {
-				$http.delete("/api/del/code/"+$scope.code).then(function (value) {
-					console.log("ok", "deleted All");
-				}), function (err) {
-					console.log("err", err);
-				};
-				//location.reload();
-			};
-
 			$scope.odpowiedz2 = function () {
 				$http.post("/api/send/type=REPLY/code=" + $scope.code + "/message=" + $scope.tresc.replace(" ", "%20")).then(function (value) {
 					console.log("ok", $scope.code);
@@ -124,7 +106,7 @@
 
 			$scope.clear=function()
 			{
-				$http.delete("/api/del/all").then(function (value) {
+				$http.delete("/api/del/code/"+$scope.code).then(function (value) {
 					console.log("ok", "deleted All");
 				}), function (err) {
 					console.log("err", err);
