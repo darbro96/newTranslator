@@ -1,6 +1,7 @@
 body{
 	margin: 0 auto;
 	font-family: lato;
+    background-image: url("/img/obrazek.jpg");
 }
 
 #gora{
@@ -16,7 +17,7 @@ body{
 #lewo{
 	width: 25%;
 	height: 100%;
-	bbackground: #0199d9;
+	background: #ffffff;
 	float: left;
 }
 
@@ -175,3 +176,74 @@ input[type=button]{
 	color: #ffffff;
 	padding-left: 10px;
 }
+#logowanie{
+    margin: 0 auto;
+    width: 600px;
+    height: 400px;
+    background: #ffffff;
+    -webkit-box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2) ;
+    box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2) ;
+    margin-top: 150px;
+    padding: 20px;
+    text-align: center;
+    font-size: 40px;
+    color: #800123;
+}
+
+#pola{
+    margin: 0 auto;
+    width: 80%;
+    hheight: 400px;
+}
+
+input#pole1, input#pole2{
+    width: 50px;
+    text-align: center;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    cursor: pointer;
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    border: 1px solid #800123;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #800123;
+    -o-text-overflow: clip;
+    text-overflow: clip;
+    background: #ffffff;
+    -webkit-box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2) ;
+    box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2) ;
+    margin: 20px;
+}
+
+
+input#pole3{
+    width: 50px;
+    text-align: center;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    cursor: pointer;
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    border: 1px solid #800123;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #800123;
+    -o-text-overflow: clip;
+    text-overflow: clip;
+    background: #ffffff;
+    -webkit-box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2) ;
+    box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2) ;
+    margin: 20px;
+    width: 200px;
+    background-color: #800123;
+    color: #ffffff;
+    padding-left: 10px;
+}
+
