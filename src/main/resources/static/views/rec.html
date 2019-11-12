@@ -98,7 +98,7 @@
 			};
 
 			$scope.usunAll = function () {
-				$http.delete("/api/del/all").then(function (value) {
+				$http.delete("/api/del/code/"+$scope.code).then(function (value) {
 					console.log("ok", "deleted All");
 				}), function (err) {
 					console.log("err", err);

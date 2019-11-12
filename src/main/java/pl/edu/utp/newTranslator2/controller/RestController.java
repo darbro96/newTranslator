@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api")
@@ -51,6 +52,15 @@ public class RestController {
     @DeleteMapping("/del/all")
     public void clear() {
         messageService.deleteAll();
+    }
+
+    @DeleteMapping("/del/code/{code}")
+    public void clearByCode(@PathVariable("code") String code) {
+        List<Message> toDelete=messageService.findAll().stream().filter(m->m.getCode().equals(code)).collect(Collectors.toList());
+        for(Message m:toDelete)
+        {
+            messageService.deleteOne(m.getId());
+        }
     }
 
     @RequestMapping("/all/{lang}")
