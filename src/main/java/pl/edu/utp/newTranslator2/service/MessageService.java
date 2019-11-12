@@ -40,12 +40,12 @@ public class MessageService {
         messageRepository.deleteAll();
     }
 
-    @PostConstruct
-    private void addTestMessage() {
-        Message message = new Message();
-        message.setContent("Wiadomość testowa [automatycznie wygenerowana]");
-        message.setCode("ABC-DEF");
-        message.setMessageType(MessageType.MESSAGE);
-        messageRepository.save(message);
-    }
+//    @PostConstruct
+//    private void addTestMessage() {
+//        Message message = new Message();
+//        message.setContent("Wiadomość testowa [automatycznie wygenerowana]");
+//        message.setCode("ABC-DEF");
+//        message.setMessageType(MessageType.MESSAGE);
+//        messageRepository.save(message);
+//    }
 }

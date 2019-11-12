@@ -2,19 +2,20 @@ package pl.edu.utp.newTranslator2.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import pl.edu.utp.newTranslator2.codeGenerator.Code;
+import pl.edu.utp.newTranslator2.codeGenerator.CodeGenerator;
 import pl.edu.utp.newTranslator2.entity.Message;
 import pl.edu.utp.newTranslator2.enums.MessageType;
 import pl.edu.utp.newTranslator2.service.MessageService;
 import pl.edu.utp.newTranslator2.translator.TextTranslator;
 
-import java.io.*;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Paths;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api")
@@ -59,23 +60,51 @@ public class RestController {
         return conversation;
     }
 
+    @RequestMapping("/getMessages/code={code}/lang={lang}")
+    public List<Message> getMessagesToCodeAndLang(@PathVariable("code") String code, @PathVariable("lang") String lang) {
+        List<Message> conversation = messageService.findByCode(code);
+        conversation.forEach(t -> t.setContent(TextTranslator.translate("pl", lang, t.getContent())));
+        return conversation;
+    }
+
     @GetMapping("/faq/{lang}")
     public List<String> getFaq(@PathVariable("lang") String lang) {
         List<String> list = new ArrayList<>();
         File file = new File("faq_" + lang + ".txt");
-        try(BufferedReader reader=new BufferedReader(new FileReader(file)))
-        {
-            String line=reader.readLine();
-            while(line!=null)
-            {
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line = reader.readLine();
+            while (line != null) {
                 list.add(line);
-                line=reader.readLine();
+                line = reader.readLine();
             }
         } catch (IOException e) {
-            list = Arrays.asList("Pokój","Klucz do pralki","Brak prądu","Przepalona żarówka","Czy administracja jest otwarta?");
+            list = Arrays.asList("Pokój", "Klucz do pralki", "Brak prądu", "Przepalona żarówka", "Czy administracja jest otwarta?");
             e.printStackTrace();
         }
         return list;
+    }
+
+    @RequestMapping("/all/count/{code}")
+    public int count(@PathVariable("code") String code) {
+        return (int)messageService.findAll().stream().filter(m->m.getCode().equals(code)).count();
+    }
+
+    @RequestMapping("/generate")
+    public Code getCode() {
+        Code code;
+        boolean isUnique;
+        do {
+            code = CodeGenerator.generateCode();
+            isUnique = true;
+            for (Message m : messageService.findAll()) {
+                if (m.getCode().equals(code.getCode())) {
+                    isUnique = false;
+                    break;
+                }
+            }
+        }
+        while (!isUnique);
+        return code;
     }
 }
 
