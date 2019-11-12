@@ -23,12 +23,21 @@ public class MessageService {
         messageRepository.save(m);
     }
 
+    public void addTestMessage(String message, MessageType messageType, String code) {
+        Message m = new Message();
+        m.setContent(message);
+        m.setMessageType(messageType);
+        m.setCode(code);
+        m.setTestMessage(true);
+        messageRepository.save(m);
+    }
+
     public List<Message> findAll() {
         return messageRepository.findAll();
     }
 
     public List<Message> findByCode(String code) {
-        return messageRepository.findAll().stream().filter(r -> r.getCode().equals(code)).collect(Collectors.toList());
+        return messageRepository.findAll().stream().filter(r->!r.isTestMessage()).filter(r -> r.getCode().equals(code)).collect(Collectors.toList());
     }
 
     public void deleteOne(long id) {

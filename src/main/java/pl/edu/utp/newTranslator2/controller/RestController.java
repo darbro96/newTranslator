@@ -33,6 +33,23 @@ public class RestController {
     public void putMessageAndTranslate(@PathVariable("message") String message, @PathVariable("type") String type, @PathVariable("code") String code, @PathVariable("lang") String lang) {
         messageService.addMessage(TextTranslator.translate(lang, "pl", message), MessageType.valueOf(type), code);
     }
+    @PostMapping("/send/type={type}/code={code}/test")
+    public void putTestMessage(@PathVariable("type") String type, @PathVariable("code") String code) {
+        messageService.addTestMessage("test", MessageType.valueOf(type), code);
+    }
+
+    @RequestMapping("/test/{code}")
+    public int codeHasTestMessage(@PathVariable("code") String code)
+    {
+        if(messageService.findAll().stream().filter(m->m.isTestMessage()).filter(m->m.getCode().equals(code)).count()>0)
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
 
     @RequestMapping("/all")
     public List<Message> getAll() {

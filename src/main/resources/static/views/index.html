@@ -7,8 +7,16 @@
 </head>
 
 <body ng-app="translator" ng-controller="controller">
-<div id="Container2" ng-hide="hasCode">
-	Podaj kod: <input type="text" ng-model="insertCode"> <button ng-click="setCode()">Zatwierdź</button>
+<div id="ContainerLogowanie" ng-hide="hasCode">
+	<div id="logowanie">
+		<img src="img/logo_header.png" wwidth="20%" /><br><br>
+		<div id="pola">
+			Wpisz kod z okna recepcji:
+			<input type="text" id="pole1" ng-model="insertCode">-<input type="text" id="pole2" ng-model="insertCode2"><br>
+			<input type="button" value="połącz..." id="pole3" ng-click="setCode()">
+		</div>
+	</div>
+
 </div>
 	<div id="Container" ng-show="hasCode">
 		<div id="gora">
@@ -194,8 +202,16 @@
 			};
 
 			$scope.setCode=function () {
-				$scope.code=$scope.insertCode;
-				$scope.hasCode=true;
+				$scope.code=$scope.insertCode+"-"+$scope.insertCode2;
+				console.log("code",$scope.code);
+
+				$http.post("/api/send/type=MESSAGE/code=" + $scope.code+"/test").then(function (value) {
+					console.log("test message send", "ok");
+					$scope.hasCode=true;
+				}), function (err) {
+					console.log("err", err);
+				};
+
 				$http.get("/api/getMessages/code="+$scope.code+"/lang="+$scope.actLang).then(function (value) {
 					//$http.get("/api/all/"+$scope.actLang).then(function (value) {
 					$scope.receivedText = value.data;

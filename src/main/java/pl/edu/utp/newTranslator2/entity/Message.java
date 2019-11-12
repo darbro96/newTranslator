@@ -18,6 +18,15 @@ public class Message {
     private String content;
     private String timeStamp;
     private MessageType messageType;
+    private boolean testMessage=false;
+
+    public boolean isTestMessage() {
+        return testMessage;
+    }
+
+    public void setTestMessage(boolean testMessage) {
+        this.testMessage = testMessage;
+    }
 
     public Message()
     {
