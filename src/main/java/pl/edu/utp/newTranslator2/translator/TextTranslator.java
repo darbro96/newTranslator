@@ -27,7 +27,8 @@ public class TextTranslator {
             result = result.substring(result.indexOf("<text>") + 6, response.indexOf("</text>"));
             return result;
         } catch (IOException ex) {
-            ex.printStackTrace();
+            //ex.printStackTrace();
+            System.out.println("TextTranslator.translate()\nsourceLanguage: "+sourceLanguage+"\ntargetLanguage: "+targetLanguage+"\ntext: "+text+"\n"+ex.toString());
             return null;
         }
     }

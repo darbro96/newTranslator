@@ -144,7 +144,7 @@
 					$scope.receivedText = value.data;
 					$scope.conversationLoaded=true;
 					console.log("Conversation loaded on start", "ok");
-					$http.get("/api/all/count").then(function (value) {
+					$http.get("/api/all/count/"+$scope.code).then(function (value) {
 						$scope.conversationSize = value.data;
 						console.log("Conversation size", value.data);
 					}), function (err) {

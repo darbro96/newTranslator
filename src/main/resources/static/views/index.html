@@ -185,7 +185,7 @@
             };
 
 			$scope.odpFaq=function(text){
-				// console.log("odp FAQ",text);
+				console.log("odp FAQ",text);
 				$http.post("/api/send/type=MESSAGE/code=" + $scope.code+"/"+$scope.actLang + "/message=" + text.replace(" ", "%20")).then(function (value) {
 					console.log("odpFAQ", value);
 				}), function (err) {
@@ -201,7 +201,7 @@
 					$scope.receivedText = value.data;
 					$scope.conversationLoaded=true;
 					console.log("Conversation loaded on start", "ok");
-					$http.get("/api/all/count").then(function (value) {
+					$http.get("/api/all/count/"+$scope.code+$scope.code).then(function (value) {
 						$scope.conversationSize = value.data;
 						console.log("Conversation size", value.data);
 					}), function (err) {
