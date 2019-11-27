@@ -1,0 +1,10 @@
+<script type="text/javascript" src="../js/lib/angular.min.js"></script>
+<div ng-controller="controller">
+    Test okna dialogowego {{insertedRoom}}
+            <br><input type="text" ng-model="insertedRoom">
+    <br><button ng-click="click1(1)">1</button><button ng-click="click1(2)">2</button><button ng-click="click1(3)">3</button>
+    <br><button ng-click="click1(4)">4</button><button ng-click="click1(5)">5</button><button ng-click="click1(6)">6</button>
+    <br><button ng-click="click1(7)">7</button><button ng-click="click1(8)">8</button><button ng-click="click1(9)">9</button>
+    <br><button ng-click="click1('A')">A</button><button ng-click="click1(0)">0</button><button ng-click="click1('B')">B`</button>
+        <button ng-click="closeThisDialog(insertedRoom)">OK</button>
+</div>

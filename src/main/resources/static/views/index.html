@@ -4,6 +4,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
 	<script type="text/javascript" src="../js/lib/angular.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ng-dialog/1.0.1/css/ngDialog.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ng-dialog/1.0.1/css/ngDialog-theme-default.min.css">
 </head>
 
 <body ng-app="translator" ng-controller="controller">
@@ -32,7 +34,7 @@
 				Chcę klucz do pokoju
 			</div>
 			<div class="przycisk" data-ng-repeat="q in faq">
-				<div ng-click="odpFaq(q)">{{q}}</div>
+				<div ng-click="odpFaq(q)">{{q.text}}</div>
 			</div>
 
 		</div>
@@ -66,8 +68,9 @@
 			
 		</div>
 	</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ng-dialog/1.0.1/js/ngDialog.min.js"></script>
 	<script type="text/javascript">
-		angular.module('translator', []).controller('controller', function ($scope, $http) {
+		angular.module('translator', ['ngDialog']).controller('controller', function ($scope, $http, ngDialog) {
 			$scope.receivedText = "";
 			$scope.faq="";
 			$scope.actLang="en";
@@ -77,6 +80,7 @@
 			$scope.conversationLoaded=false;
 			$scope.hasCode=false;
 			$scope.code="";
+			$scope.insertedRoom="";
 
 			$http.get("/api/faq/"+$scope.actLang).then(function (value) {
 				$scope.faq = value.data;
@@ -126,12 +130,28 @@
 			};
 
 			$scope.odpowiedz = function () {
-				$http.post("/api/send/type=MESSAGE/code=" + $scope.code+"/"+$scope.actLang + "/message=" + $scope.tresc.replace(" ", "%20")).then(function (value) {
-					console.log("ok", value);
-				}), function (err) {
-					console.log("err", err);
-				};
+				if(!$scope.actLang.equals("en"))
+				{
+					$http.post("/api/send/type=MESSAGE/code=" + $scope.code+"/"+$scope.actLang + "/message=" + $scope.tresc.replace(" ", "%20")).then(function (value) {
+						console.log("ok", value);
+					}), function (err) {
+						console.log("err", err);
+					};
+				}
+				else
+				{
+					$http.post("/api/send/type=REPLY/code=" + $scope.code + "/message=" + $scope.tresc.replace(" ", "%20")).then(function (value) {
+								console.log("ok", $scope.code);
+							}), function (err) {
+								console.log("err", err);
+							};
+				}
 			};
+
+			// $scope.odpowiedz=function(){
+			// 	$scope.tresc+="1";
+			// 	console.log("KLIKNIĘTO 1!!!!",$scope.tresc);
+			// };
 
 			$scope.generujKod = function () {
 				$http.get("api/reception/generate").then(function (value) {
@@ -192,13 +212,37 @@
                 };
             };
 
-			$scope.odpFaq=function(text){
-				console.log("odp FAQ",text);
-				$http.post("/api/send/type=MESSAGE/code=" + $scope.code+"/"+$scope.actLang + "/message=" + text.replace(" ", "%20")).then(function (value) {
-					console.log("odpFAQ", value);
-				}), function (err) {
-					console.log("err", err);
-				};
+			$scope.odpFaq=function(faq){
+				console.log("odp FAQ",faq);
+
+				if(faq.dialog)
+				{
+					var dialog= ngDialog.open({
+						template: '/template1.html',
+						className: 'ngdialog-theme-default',
+						scope: $scope,
+						data: $scope.insertedRoom
+					});
+
+					dialog.closePromise.then(function (data){
+						console.log("Data popup",data);
+						$scope.insertedRoom=data.value;
+						$http.post("/api/send/type=MESSAGE/code=" + $scope.code+"/"+$scope.actLang + "/message=" + faq.text.replace(" ", "%20")+" "+$scope.insertedRoom).then(function (value) {
+							console.log("odpFAQ", value);
+						}), function (err) {
+							console.log("err", err);
+						};
+					});
+				}
+				else
+				{
+					$http.post("/api/send/type=MESSAGE/code=" + $scope.code+"/"+$scope.actLang + "/message=" + faq.text.replace(" ", "%20")).then(function (value) {
+						console.log("odpFAQ", value);
+					}), function (err) {
+						console.log("err", err);
+					};
+				}
+
 			};
 
 			$scope.setCode=function () {
@@ -227,8 +271,22 @@
 					console.log("Conversation loaded on start", err);
 				};
 			};
+
+			//przyciski w popup
+			$scope.click1=function (number) {
+				$scope.insertedRoom+=number;
+				console.log("Room",$scope.insertedRoom);
+			};
+
 		});
 
 	</script>
+<script type="text/javascript">
+	function funkcja()
+	{
+		document.getElementById("no_room").value += 1;
+		document.getElementById("no_room").click();
+	}
+</script>
 </body>
 </html>
