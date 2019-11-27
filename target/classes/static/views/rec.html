@@ -4,6 +4,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
 	<script type="text/javascript" src="../js/lib/angular.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ng-dialog/1.0.1/css/ngDialog.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ng-dialog/1.0.1/css/ngDialog-theme-default.min.css">
 </head>
 
 <body ng-app="translator" ng-controller="controller">
@@ -26,10 +28,13 @@
 				Chcę klucz do pokoju
 			</div>
 			<div class="przycisk">
-				<div ng-click="odpowiedz('Tak')">Tak.</div>
+				<div ng-click="odpowiedz('Yes')">Tak.</div>
 			</div>
 			<div class="przycisk">
-				<div ng-click="odpowiedz('Nie')">Nie.</div>
+				<div ng-click="odpowiedz('No')">Nie.</div>
+			</div>
+			<div class="przycisk">
+				<div ng-click="odpowiedz('I do not understand')">Nie rozumiem.</div>
 			</div>
 
 		</div>
@@ -64,13 +69,17 @@
 			
 		</div>
 	</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ng-dialog/1.0.1/js/ngDialog.min.js"></script>
+
 	<script type="text/javascript">
-		angular.module('translator', []).controller('controller', function ($scope, $http) {
+		angular.module('translator', ['ngDialog']).controller('controller', function ($scope, $http, ngDialog) {
 			$scope.receivedText = "";
 			$scope.conversationSize=0;
 			$scope.conversationLoaded=false;
 			$scope.hasCode=false;
 			$scope.code="";
+			$scope.napis="Napis";
 
 			setInterval(function () {
 				if($scope.conversationLoaded)
@@ -80,8 +89,9 @@
 						{
 							console.log("New conversation size", value.data);
 							$scope.conversationSize=value.data;
-							$http.get("/api/getMessages/code="+$scope.code).then(function (value) {
+							//$http.get("/api/getMessages/code="+$scope.code).then(function (value) {
 							//$http.get("/api/all").then(function (value) {
+							$http.get("/api/getMessages/code="+$scope.code+"/lang=pl").then(function (value){
 								$scope.receivedText = value.data;
 								console.log("Conversation", "Reload");
 							}), function (err) {
@@ -97,27 +107,38 @@
 			setInterval(function () {
 				if(!$scope.hasCode)
 				{
-					$http.get("/api/test/"+$scope.code).then(function (value){
-						if(value.data==1) {
-							console.log("Found test message", $scope.code);
-							$scope.hasCode=true;
-						}
-					}), function (err) {
-						console.log("err", err);
-					};
+					if($scope.code.length>0)
+					{
+						$http.get("/api/test/"+$scope.code).then(function (value){
+							if(value.data==1) {
+								console.log("Found test message", $scope.code);
+								$scope.hasCode=true;
+							}
+						}), function (err) {
+							console.log("err", err);
+						};
+					}
 				}
 			}, 1000);
 
-			$scope.odpowiedz2 = function () {
-				$http.post("/api/send/type=REPLY/code=" + $scope.code + "/message=" + $scope.tresc.replace(" ", "%20")).then(function (value) {
-					console.log("ok", $scope.code);
+			// $scope.odpowiedz2 = function () {
+			// 	$http.post("/api/send/type=REPLY/code=" + $scope.code + "/message=" + $scope.tresc.replace(" ", "%20")).then(function (value) {
+			// 		console.log("ok", $scope.code);
+			// 	}), function (err) {
+			// 		console.log("err", err);
+			// 	};
+			// };
+
+			$scope.odpowiedz = function (text) {
+				$http.post("/api/send/type=REPLY/code=" + $scope.code  + "/en/message=" + text.replace(" ", "%20")).then(function (value) {
+					console.log("ok", value);
 				}), function (err) {
 					console.log("err", err);
 				};
 			};
 
-			$scope.odpowiedz = function (text) {
-				$http.post("/api/send/type=REPLY/code=" + $scope.code  + "/message=" + text.replace(" ", "%20")).then(function (value) {
+			$scope.odpowiedz2 = function () {
+				$http.post("/api/send/type=REPLY/code=" + $scope.code+"/en/message=" + $scope.tresc.replace(" ", "%20")).then(function (value) {
 					console.log("ok", value);
 				}), function (err) {
 					console.log("err", err);
@@ -156,6 +177,12 @@
 				}), function (err) {
 					console.log("Conversation loaded on start", err);
 				};
+
+				// ngDialog.openConfirm({
+				// 	template: '/template1.html',
+				// 	className: 'ngdialog-theme-default',
+				// 	scope: $scope
+				// });
 			};
 		});
 

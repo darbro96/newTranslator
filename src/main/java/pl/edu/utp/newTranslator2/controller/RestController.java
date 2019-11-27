@@ -6,6 +6,7 @@ import pl.edu.utp.newTranslator2.codeGenerator.Code;
 import pl.edu.utp.newTranslator2.codeGenerator.CodeGenerator;
 import pl.edu.utp.newTranslator2.entity.Message;
 import pl.edu.utp.newTranslator2.enums.MessageType;
+import pl.edu.utp.newTranslator2.model.Faq;
 import pl.edu.utp.newTranslator2.service.MessageService;
 import pl.edu.utp.newTranslator2.translator.TextTranslator;
 
@@ -31,7 +32,14 @@ public class RestController {
 
     @PostMapping("/send/type={type}/code={code}/{lang}/message={message}")
     public void putMessageAndTranslate(@PathVariable("message") String message, @PathVariable("type") String type, @PathVariable("code") String code, @PathVariable("lang") String lang) {
-        messageService.addMessage(TextTranslator.translate(lang, "pl", message), MessageType.valueOf(type), code);
+        if(!"en".equals(lang))
+        {
+            messageService.addMessage(TextTranslator.translate(lang, "en", message), MessageType.valueOf(type), code);
+        }
+        else
+        {
+            messageService.addMessage(message, MessageType.valueOf(type), code);
+        }
     }
     @PostMapping("/send/type={type}/code={code}/test")
     public void putTestMessage(@PathVariable("type") String type, @PathVariable("code") String code) {
@@ -83,29 +91,44 @@ public class RestController {
     @RequestMapping("/all/{lang}")
     public List<Message> getAllInLang(@PathVariable("lang") String language) {
         List<Message> conversation = messageService.findAll();
-        conversation.forEach(t -> t.setContent(TextTranslator.translate("pl", language, t.getContent())));
+        conversation.forEach(t -> t.setContent(TextTranslator.translate("en", language, t.getContent())));
         return conversation;
     }
 
     @RequestMapping("/getMessages/code={code}/lang={lang}")
     public List<Message> getMessagesToCodeAndLang(@PathVariable("code") String code, @PathVariable("lang") String lang) {
         List<Message> conversation = messageService.findByCode(code);
-        conversation.forEach(t -> t.setContent(TextTranslator.translate("pl", lang, t.getContent())));
+        conversation.forEach(t -> t.setContent(TextTranslator.translate("en", lang, t.getContent())));
         return conversation;
     }
 
     @GetMapping("/faq/{lang}")
-    public List<String> getFaq(@PathVariable("lang") String lang) {
-        List<String> list = new ArrayList<>();
+    public List<Faq> getFaq(@PathVariable("lang") String lang) {
+        List<Faq> list = new ArrayList<>();
         File file = new File("faq_" + lang + ".txt");
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line = reader.readLine();
             while (line != null) {
-                list.add(line);
+                String[] lineSpilt=line.split(";");
+                if(lineSpilt.length>=2)
+                {
+                    if(lineSpilt[1].equals("true"))
+                    {
+                        list.add(new Faq(lineSpilt[0],true,lineSpilt[2]));
+                    }
+                    else
+                    {
+                        list.add(new Faq(lineSpilt[0],false));
+                    }
+                }
+                else
+                {
+                    list.add(new Faq(line,false));
+                }
                 line = reader.readLine();
             }
         } catch (IOException e) {
-            list = Arrays.asList("Pokój", "Klucz do pralki", "Brak prądu", "Przepalona żarówka", "Czy administracja jest otwarta?");
+            //list = Arrays.asList("Pokój", "Poproszę klucz do pralki", "Brak prądu", "Przepalona żarówka", "Czy administracja jest otwarta?");
             e.printStackTrace();
         }
         return list;

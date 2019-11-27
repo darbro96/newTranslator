@@ -1,5 +1,5 @@
-Room
-Key to washing machine
-No current
-Burned out light bulb
-The administration is open?
+Room;true;template1
+Key to washing machine;false
+No current;false
+Burned out light bulb;false
+The administration is open?;false

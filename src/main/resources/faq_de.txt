@@ -1,5 +1,5 @@
-Zimmer
-Waschmaschine Schlüssel
-Kein Strom
-Die Glühbirne ist durchgebrannt
-Ist die Verwaltung offen?
+Zimmer;true;template1
+Waschmaschine Schlüssel;false
+Kein Strom;false
+Die Glühbirne ist durchgebrannt;false
+Ist die Verwaltung offen?;false
