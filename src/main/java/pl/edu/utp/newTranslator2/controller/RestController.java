@@ -27,34 +27,43 @@ public class RestController {
 
     @PostMapping("/send/type={type}/code={code}/message={message}")
     public void putMessage(@PathVariable("message") String message, @PathVariable("type") String type, @PathVariable("code") String code) {
-        messageService.addMessage(message, MessageType.valueOf(type), code);
+        messageService.addMessage(message, MessageType.valueOf(type), code, message);
     }
 
     @PostMapping("/send/type={type}/code={code}/{lang}/message={message}")
     public void putMessageAndTranslate(@PathVariable("message") String message, @PathVariable("type") String type, @PathVariable("code") String code, @PathVariable("lang") String lang) {
-        if(!"en".equals(lang))
-        {
-            messageService.addMessage(TextTranslator.translate(lang, "en", message), MessageType.valueOf(type), code);
-        }
-        else
-        {
-            messageService.addMessage(message, MessageType.valueOf(type), code);
+        if (!"en".equals(lang)) {
+            messageService.addMessage(TextTranslator.translate(lang, "en", message), MessageType.valueOf(type), code, message);
+
+        } else {
+            messageService.addMessage(message, MessageType.valueOf(type), code, message);
         }
     }
+
+    @PostMapping("/send/type={type}/code={code}/message={message}/o={originalMessage}")
+    public void putMessage(@PathVariable("message") String message, @PathVariable("type") String type, @PathVariable("code") String code, @PathVariable String originalMessage) {
+        messageService.addMessage(message, MessageType.valueOf(type), code, originalMessage);
+    }
+
+    @PostMapping("/send/type={type}/code={code}/{lang}/message={message}/o={originalMessage}")
+    public void putMessageAndTranslate(@PathVariable("message") String message, @PathVariable("type") String type, @PathVariable("code") String code, @PathVariable("lang") String lang, @PathVariable String originalMessage) {
+        if (!"en".equals(lang)) {
+            messageService.addMessage(TextTranslator.translate(lang, "en", message), MessageType.valueOf(type), code, originalMessage);
+        } else {
+            messageService.addMessage(message, MessageType.valueOf(type), code, originalMessage);
+        }
+    }
+
     @PostMapping("/send/type={type}/code={code}/test")
     public void putTestMessage(@PathVariable("type") String type, @PathVariable("code") String code) {
         messageService.addTestMessage("test", MessageType.valueOf(type), code);
     }
 
     @RequestMapping("/test/{code}")
-    public int codeHasTestMessage(@PathVariable("code") String code)
-    {
-        if(messageService.findAll().stream().filter(m->m.isTestMessage()).filter(m->m.getCode().equals(code)).count()>0)
-        {
+    public int codeHasTestMessage(@PathVariable("code") String code) {
+        if (messageService.findAll().stream().filter(m -> m.isTestMessage()).filter(m -> m.getCode().equals(code)).count() > 0) {
             return 1;
-        }
-        else
-        {
+        } else {
             return 0;
         }
     }
@@ -81,9 +90,8 @@ public class RestController {
 
     @DeleteMapping("/del/code/{code}")
     public void clearByCode(@PathVariable("code") String code) {
-        List<Message> toDelete=messageService.findAll().stream().filter(m->m.getCode().equals(code)).collect(Collectors.toList());
-        for(Message m:toDelete)
-        {
+        List<Message> toDelete = messageService.findAll().stream().filter(m -> m.getCode().equals(code)).collect(Collectors.toList());
+        for (Message m : toDelete) {
             messageService.deleteOne(m.getId());
         }
     }
@@ -109,22 +117,16 @@ public class RestController {
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line = reader.readLine();
             while (line != null) {
-                String[] lineSpilt=line.split(";");
-                if(lineSpilt.length>=2)
-                {
-                    if(lineSpilt[1].equals("true"))
-                    {
-                        String[] options=lineSpilt[4].split("@");
-                        list.add(new Faq(lineSpilt[0],true,lineSpilt[2],lineSpilt[3],options));
+                String[] lineSpilt = line.split(";");
+                if (lineSpilt.length >= 2) {
+                    if (lineSpilt[1].equals("true")) {
+                        String[] options = lineSpilt[4].split("@");
+                        list.add(new Faq(lineSpilt[0], true, lineSpilt[2], lineSpilt[3], options));
+                    } else {
+                        list.add(new Faq(lineSpilt[0], false));
                     }
-                    else
-                    {
-                        list.add(new Faq(lineSpilt[0],false));
-                    }
-                }
-                else
-                {
-                    list.add(new Faq(line,false));
+                } else {
+                    list.add(new Faq(line, false));
                 }
                 line = reader.readLine();
             }
@@ -137,7 +139,7 @@ public class RestController {
 
     @RequestMapping("/all/count/{code}")
     public int count(@PathVariable("code") String code) {
-        return (int)messageService.findAll().stream().filter(m->m.getCode().equals(code)).count();
+        return (int) messageService.findAll().stream().filter(m -> m.getCode().equals(code)).count();
     }
 
     @RequestMapping("/generate")

@@ -28,13 +28,16 @@
 				Chcę klucz do pokoju
 			</div>
 			<div class="przycisk">
-				<div ng-click="odpowiedz('Yes')">Tak.</div>
+				<div ng-click="odpowiedz('Yes','Tak')">Tak.</div>
 			</div>
 			<div class="przycisk">
-				<div ng-click="odpowiedz('No')">Nie.</div>
+				<div ng-click="odpowiedz('No','Nie')">Nie.</div>
 			</div>
 			<div class="przycisk">
-				<div ng-click="odpowiedz('I do not understand')">Nie rozumiem.</div>
+				<div ng-click="odpowiedz('I do not understand','Nie rozumiem')">Nie rozumiem.</div>
+			</div>
+			<div class="przycisk">
+				<div ng-click="odpowiedz('Show your dormitory card','Pokaż kartę mieszkańca')">Pokaż kartę mieszkańca.</div>
 			</div>
 
 		</div>
@@ -47,7 +50,7 @@
 <!--				Odebrano <b> {{r.timeStamp}} </b><br>-->
 <!--				Treść: <b>{{r.content}}</b>-->
 <!--				<button ng-click="usun(r.id)">Usuń</button>-->
-				{{r.content}}
+				{{r.messageType=="REPLY"?r.originalContent:r.content}}
 			</div>
 <!--			<div class="wiadomoscOne">-->
 <!--				tresc-->
@@ -93,7 +96,7 @@
 							//$http.get("/api/all").then(function (value) {
 							$http.get("/api/getMessages/code="+$scope.code+"/lang=pl").then(function (value){
 								$scope.receivedText = value.data;
-								console.log("Conversation", "Reload");
+								console.log("Conversation Reload", $scope.receivedText);
 							}), function (err) {
 								console.log("err", err);
 							};
@@ -129,8 +132,8 @@
 			// 	};
 			// };
 
-			$scope.odpowiedz = function (text) {
-				$http.post("/api/send/type=REPLY/code=" + $scope.code  + "/en/message=" + text.replace(" ", "%20")).then(function (value) {
+			$scope.odpowiedz = function (text, textOriginal) {
+				$http.post("/api/send/type=REPLY/code=" + $scope.code  + "/pl/message=" + text.replace(" ", "%20")+"/o="+textOriginal).then(function (value) {
 					console.log("ok", value);
 				}), function (err) {
 					console.log("err", err);
@@ -138,7 +141,7 @@
 			};
 
 			$scope.odpowiedz2 = function () {
-				$http.post("/api/send/type=REPLY/code=" + $scope.code+"/en/message=" + $scope.tresc.replace(" ", "%20")).then(function (value) {
+				$http.post("/api/send/type=REPLY/code=" + $scope.code+"/pl/message=" + $scope.tresc.replace(" ", "%20")+"/o="+$scope.tresc	).then(function (value) {
 					console.log("ok", value);
 				}), function (err) {
 					console.log("err", err);

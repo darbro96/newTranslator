@@ -15,11 +15,12 @@ public class MessageService {
     @Autowired
     private MessageRepository messageRepository;
 
-    public void addMessage(String message, MessageType messageType, String code) {
+    public void addMessage(String message, MessageType messageType, String code, String orignial) {
         Message m = new Message();
         m.setContent(message);
         m.setMessageType(messageType);
         m.setCode(code);
+        m.setOriginalContent(orignial);
         messageRepository.save(m);
     }
 

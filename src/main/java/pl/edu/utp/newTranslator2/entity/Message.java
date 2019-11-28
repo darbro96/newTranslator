@@ -19,6 +19,7 @@ public class Message {
     private String timeStamp;
     private MessageType messageType;
     private boolean testMessage=false;
+    private String originalContent=null;
 
     public boolean isTestMessage() {
         return testMessage;
@@ -67,5 +68,13 @@ public class Message {
 
     public long getId() {
         return id;
+    }
+
+    public String getOriginalContent() {
+        return originalContent;
+    }
+
+    public void setOriginalContent(String originalContent) {
+        this.originalContent = originalContent;
     }
 }
