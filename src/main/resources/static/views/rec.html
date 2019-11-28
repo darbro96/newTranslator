@@ -158,7 +158,6 @@
 				$http.get("/api/generate").then(function (value) {
 					console.log("Code generated", value.data.code);
 					$scope.code=value.data.code;
-					//$scope.hasCode=true;
 				}), function (err) {
 					console.log("Generation code error", err);
 				};
@@ -177,12 +176,6 @@
 				}), function (err) {
 					console.log("Conversation loaded on start", err);
 				};
-
-				// ngDialog.openConfirm({
-				// 	template: '/template1.html',
-				// 	className: 'ngdialog-theme-default',
-				// 	scope: $scope
-				// });
 			};
 		});
 
