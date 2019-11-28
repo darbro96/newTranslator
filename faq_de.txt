@@ -1,5 +1,5 @@
-Zimmer;true;template1
-Waschmaschine Schlüssel;false
+Zimmer;true;template1;Zimmer;""
+Waschmaschine Schlüssel;true;template2;"";Ich gebe den Schlüssel zur Waschmaschine zurück@Den Waschmaschinenschlüssel bitte
 Kein Strom;false
 Die Glühbirne ist durchgebrannt;false
 Ist die Verwaltung offen?;false

@@ -1,5 +1,0 @@
-Zimmer;true;template1
-Waschmaschine Schlüssel;false
-Kein Strom;false
-Die Glühbirne ist durchgebrannt;false
-Ist die Verwaltung offen?;false

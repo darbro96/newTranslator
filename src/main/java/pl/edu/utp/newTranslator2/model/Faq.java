@@ -13,6 +13,8 @@ public class Faq {
     private String text;
     private boolean dialog;
     private String template="";
+    private String returnedText="";
+    private String[] options;
 
     public Faq(String text, boolean dialog)
     {

@@ -81,6 +81,20 @@
 			$scope.hasCode=false;
 			$scope.code="";
 			$scope.insertedRoom="";
+			//pralki - aktualne
+            $scope.pralki=[];
+            $scope.pralki[1]="I return the key to the washing machine";
+            $scope.pralki[2]="The washing machine key, please";
+            //pralki -en
+			$scope.pralki_en=[];
+			$scope.pralki_en[1]="I return the key to the washing machine";
+			$scope.pralki_en[2]="The washing machine key, please";
+			//pralki -de
+			$scope.pralki_de=[];
+			$scope.pralki_de[1]="Ich gebe den Schlüssel zur Waschmaschine zurück";
+			$scope.pralki_de[2]="Den Waschmaschinenschlüssel bitte";
+
+
 
 			$http.get("/api/faq/"+$scope.actLang).then(function (value) {
 				$scope.faq = value.data;
@@ -176,6 +190,7 @@
 				$scope.actLang="en";
                 $scope.room="Room";
                 $scope.bookingWashing="Booking washing";
+				$scope.pralki=$scope.pralki_en;
 
 				$http.get("/api/faq/"+$scope.actLang).then(function (value) {
 					$scope.faq = value.data;
@@ -191,6 +206,7 @@
 				$scope.actLang="de";
                 $scope.room="Zimmer";
                 $scope.bookingWashing="Buchung waschen";
+                $scope.pralki=$scope.pralki_de;
 
 				$http.get("/api/faq/"+$scope.actLang).then(function (value) {
 					$scope.faq = value.data;
@@ -214,6 +230,7 @@
 
 			$scope.odpFaq=function(faq){
 				console.log("odp FAQ",faq);
+				$scope.options=faq.options;
 
 				if(faq.dialog)
 				{
@@ -227,7 +244,7 @@
 					dialog.closePromise.then(function (data){
 						console.log("Data popup",data);
 						$scope.insertedRoom=data.value;
-						$http.post("/api/send/type=MESSAGE/code=" + $scope.code+"/"+$scope.actLang + "/message=" + faq.text.replace(" ", "%20")+" "+$scope.insertedRoom).then(function (value) {
+						$http.post("/api/send/type=MESSAGE/code=" + $scope.code+"/"+$scope.actLang + "/message=" + $scope.insertedRoom.replace(" ", "%20")).then(function (value) {
 							console.log("odpFAQ", value);
 						}), function (err) {
 							console.log("err", err);

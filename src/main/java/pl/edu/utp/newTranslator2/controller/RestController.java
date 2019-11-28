@@ -114,7 +114,8 @@ public class RestController {
                 {
                     if(lineSpilt[1].equals("true"))
                     {
-                        list.add(new Faq(lineSpilt[0],true,lineSpilt[2]));
+                        String[] options=lineSpilt[4].split("@");
+                        list.add(new Faq(lineSpilt[0],true,lineSpilt[2],lineSpilt[3],options));
                     }
                     else
                     {
