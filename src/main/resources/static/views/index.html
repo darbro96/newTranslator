@@ -20,56 +20,56 @@
 	</div>
 
 </div>
-	<div id="Container" ng-show="hasCode">
+<div id="Container" ng-show="hasCode">
 
-		<div id="lewo"><br>
-			<img src="img/talk.png" width="40%"/><br>
-			<div class="przycisk" data-ng-repeat="q in faq">
-				<div ng-click="odpFaq(q)">{{q.text}}</div>
-			</div>
+	<div id="lewo"><br>
+		<img src="img/talk.png" width="40%"/><br>
+		<br>
+		<div class="przycisk" data-ng-repeat="q in faq">
+			<div ng-click="odpFaq(q)">{{q.text}}</div>
+		</div>
+
+	</div>
+	<div id="prawo">
+		<div id="gora">
+
+			<img src="img/flagENG.png" width="5%" ng-click="setEn()"/>
+			<img src="img/flagGER.png" width="5%" ng-click="setDe()"/>
+			<!--				<img src="img/flagITA.png" width="5%" />-->
+			<!--				<img src="img/flagSPA.png" width="5%" />-->
 
 		</div>
-		<div id="prawo">
-			<div id="gora">
 
-				<img src="img/flagENG.png" width="5%" ng-click="setEn()"/>
-				<img src="img/flagGER.png" width="5%" ng-click="setDe()"/>
-				<!--				<img src="img/flagITA.png" width="5%" />-->
-				<!--				<img src="img/flagSPA.png" width="5%" />-->
-
-			</div>
-
-			<br><br><br><br>
-			<div>
-				Code: {{code}}
-			</div>
-			<div id="prawoSrodek">
-			<img src="img/img2.png" width="10%" />
+		<br><br><br><br>
+		<div>
+			Code: {{code}}
+		</div>
+		<div id="prawoSrodek">
 			<div class="{{r.messageType}}" data-ng-repeat="r in receivedText">
-<!--				Odebrano <b> {{r.timeStamp}} </b><br>-->
-<!--				Treść: <b>{{r.content}}</b>-->
-<!--				<button ng-click="usun(r.id)">Usuń</button>-->
+				<!--				Odebrano <b> {{r.timeStamp}} </b><br>-->
+				<!--				Treść: <b>{{r.content}}</b>-->
+				<!--				<button ng-click="usun(r.id)">Usuń</button>-->
 				{{r.content}}
 			</div></div>
-<!--			<div class="wiadomoscOne">-->
-<!--				tresc-->
-<!--			</div>-->
-<!--			<div class="wiadomoscTwo">-->
-<!--				tresc-->
-<!--			</div>-->
-<!--			<div class="wiadomoscOne">-->
-<!--				tresc-->
-<!--			</div>-->
-<!--			<div class="wiadomoscTwo">-->
-<!--				tresc-->
-<!--			</div>-->
-			<div id="wpisz">
+		<!--			<div class="wiadomoscOne">-->
+		<!--				tresc-->
+		<!--			</div>-->
+		<!--			<div class="wiadomoscTwo">-->
+		<!--				tresc-->
+		<!--			</div>-->
+		<!--			<div class="wiadomoscOne">-->
+		<!--				tresc-->
+		<!--			</div>-->
+		<!--			<div class="wiadomoscTwo">-->
+		<!--				tresc-->
+		<!--			</div>-->
+		<div id="wpisz">
 			<input type="text" value="Wprowadz tekst..." ng-model="tresc"><input type="button" value=">" ng-click="odpowiedz()">
-			</div>
-
-			
 		</div>
+
+
 	</div>
+</div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ng-dialog/1.0.1/js/ngDialog.min.js"></script>
 	<script type="text/javascript">
 		angular.module('translator', ['ngDialog']).controller('controller', function ($scope, $http, ngDialog) {
