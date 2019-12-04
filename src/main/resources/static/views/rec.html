@@ -20,13 +20,9 @@
 	</div>
 </div>
 	<div id="Container" ng-show="hasCode">
-		<div id="gora">
-				<img src="img/logods.png" width="20%" />
-		</div>
-		<div id="lewo">
-			<div class="przycisk">
-				Chcę klucz do pokoju
-			</div>
+
+		<div id="lewo"><br>
+
 			<div class="przycisk">
 				<div ng-click="odpowiedz('Yes','Tak')">Tak.</div>
 			</div>
@@ -41,7 +37,11 @@
 			</div>
 
 		</div>
-		<div id="prawo"><br><br><br><br>
+		<div id="prawo">
+			<div id="gora">
+				<img src="img/logods.png" width="20%" />
+			</div>
+			<br><br><br><br>
 			<div>
 				Wygenerowany kod: {{code}}
 			</div>
@@ -66,7 +66,7 @@
 <!--			</div>-->
 			<div id="wpisz">
 				<button ng-click="clear()">WYCZYŚĆ</button>
-			<input type="text" value="Wprowadz tekst..." ng-model="tresc"><input type="button" value=">" ng-click="odpowiedz2()">
+			<input type="text" value="Wprowadz tekst..." ng-model="tresc"><input type="button" value=" > " ng-click="odpowiedz2()">
 			</div>
 
 			
