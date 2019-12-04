@@ -24,10 +24,6 @@
 
 		<div id="lewo"><br>
 			<img src="img/talk.png" width="40%"/><br>
-			<br>Podpowiedzi<br>
-			<div class="przycisk">
-				Chcę klucz do pokoju
-			</div>
 			<div class="przycisk" data-ng-repeat="q in faq">
 				<div ng-click="odpFaq(q)">{{q.text}}</div>
 			</div>
@@ -258,11 +254,13 @@
 					dialog.closePromise.then(function (data){
 						console.log("Data popup",data);
 						$scope.insertedRoom=data.value;
-						$http.post("/api/send/type=MESSAGE/code=" + $scope.code+"/"+$scope.actLang + "/message="+faq.returnedText.replace('""',"")+" " + $scope.insertedRoom.replace(" ", "%20")).then(function (value) {
-							console.log("odpFAQ", value);
-						}), function (err) {
-							console.log("err", err);
-						};
+						if(!$scope.insertedRoom.includes("$")) {
+							$http.post("/api/send/type=MESSAGE/code=" + $scope.code + "/" + $scope.actLang + "/message=" + faq.returnedText.replace('""', "") + " " + $scope.insertedRoom.replace(" ", "%20")).then(function (value) {
+								console.log("odpFAQ", value);
+							}), function (err) {
+								console.log("err", err);
+							};
+						}
 					});
 				}
 				else
