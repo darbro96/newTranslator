@@ -3,3 +3,4 @@ Wäsche;true;template2;"";Ich gebe den Schlüssel zur Waschmaschine zurück@Den 
 Kein Strom;false
 Die Glühbirne ist durchgebrannt;false
 Ist die Verwaltung offen?;false
+Danke;false

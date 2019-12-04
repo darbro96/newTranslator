@@ -3,3 +3,4 @@ Washing;true;template2;"";I return the key to the washing machine@The washing ma
 No current;false
 Burned out light bulb;false
 The administration is open?;false
+Thank you;false
