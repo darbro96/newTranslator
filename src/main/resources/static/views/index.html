@@ -21,15 +21,10 @@
 
 </div>
 	<div id="Container" ng-show="hasCode">
-		<div id="gora">
-				<img src="img/logods.png" width="20%" />
-				<img src="img/flagENG.png" width="5%" ng-click="setEn()"/>
-				<img src="img/flagGER.png" width="5%" ng-click="setDe()"/>
-<!--				<img src="img/flagITA.png" width="5%" />-->
-<!--				<img src="img/flagSPA.png" width="5%" />-->
-					
-		</div>
-		<div id="lewo">
+
+		<div id="lewo"><br>
+			<img src="img/talk.png" width="40%"/><br>
+			<br>Podpowiedzi<br>
 			<div class="przycisk">
 				Chcę klucz do pokoju
 			</div>
@@ -38,17 +33,28 @@
 			</div>
 
 		</div>
-		<div id="prawo"><br><br><br><br>
+		<div id="prawo">
+			<div id="gora">
+
+				<img src="img/flagENG.png" width="5%" ng-click="setEn()"/>
+				<img src="img/flagGER.png" width="5%" ng-click="setDe()"/>
+				<!--				<img src="img/flagITA.png" width="5%" />-->
+				<!--				<img src="img/flagSPA.png" width="5%" />-->
+
+			</div>
+
+			<br><br><br><br>
 			<div>
 				Code: {{code}}
 			</div>
+			<div id="prawoSrodek">
 			<img src="img/img2.png" width="10%" />
 			<div class="{{r.messageType}}" data-ng-repeat="r in receivedText">
 <!--				Odebrano <b> {{r.timeStamp}} </b><br>-->
 <!--				Treść: <b>{{r.content}}</b>-->
 <!--				<button ng-click="usun(r.id)">Usuń</button>-->
 				{{r.content}}
-			</div>
+			</div></div>
 <!--			<div class="wiadomoscOne">-->
 <!--				tresc-->
 <!--			</div>-->

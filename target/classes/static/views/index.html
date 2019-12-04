@@ -21,15 +21,10 @@
 
 </div>
 	<div id="Container" ng-show="hasCode">
-		<div id="gora">
-				<img src="img/logods.png" width="20%" />
-				<img src="img/flagENG.png" width="5%" ng-click="setEn()"/>
-				<img src="img/flagGER.png" width="5%" ng-click="setDe()"/>
-<!--				<img src="img/flagITA.png" width="5%" />-->
-<!--				<img src="img/flagSPA.png" width="5%" />-->
-					
-		</div>
-		<div id="lewo">
+
+		<div id="lewo"><br>
+			<img src="img/talk.png" width="40%"/><br>
+			<br>Podpowiedzi<br>
 			<div class="przycisk">
 				Chcę klucz do pokoju
 			</div>
@@ -38,17 +33,28 @@
 			</div>
 
 		</div>
-		<div id="prawo"><br><br><br><br>
+		<div id="prawo">
+			<div id="gora">
+
+				<img src="img/flagENG.png" width="5%" ng-click="setEn()"/>
+				<img src="img/flagGER.png" width="5%" ng-click="setDe()"/>
+				<!--				<img src="img/flagITA.png" width="5%" />-->
+				<!--				<img src="img/flagSPA.png" width="5%" />-->
+
+			</div>
+
+			<br><br><br><br>
 			<div>
 				Code: {{code}}
 			</div>
+			<div id="prawoSrodek">
 			<img src="img/img2.png" width="10%" />
 			<div class="{{r.messageType}}" data-ng-repeat="r in receivedText">
 <!--				Odebrano <b> {{r.timeStamp}} </b><br>-->
 <!--				Treść: <b>{{r.content}}</b>-->
 <!--				<button ng-click="usun(r.id)">Usuń</button>-->
 				{{r.content}}
-			</div>
+			</div></div>
 <!--			<div class="wiadomoscOne">-->
 <!--				tresc-->
 <!--			</div>-->
@@ -81,6 +87,20 @@
 			$scope.hasCode=false;
 			$scope.code="";
 			$scope.insertedRoom="";
+			//pralki - aktualne
+            $scope.pralki=[];
+            $scope.pralki[1]="I return the key to the washing machine";
+            $scope.pralki[2]="The washing machine key, please";
+            //pralki -en
+			$scope.pralki_en=[];
+			$scope.pralki_en[1]="I return the key to the washing machine";
+			$scope.pralki_en[2]="The washing machine key, please";
+			//pralki -de
+			$scope.pralki_de=[];
+			$scope.pralki_de[1]="Ich gebe den Schlüssel zur Waschmaschine zurück";
+			$scope.pralki_de[2]="Den Waschmaschinenschlüssel bitte";
+
+
 
 			$http.get("/api/faq/"+$scope.actLang).then(function (value) {
 				$scope.faq = value.data;
@@ -100,7 +120,7 @@
 							$http.get("/api/getMessages/code="+$scope.code+"/lang="+$scope.actLang).then(function (value) {
 							//$http.get("/api/all/"+$scope.actLang).then(function (value) {
 								$scope.receivedText = value.data;
-								console.log("Conversation", "Reload");
+								console.log("Conversation Reload", $scope.receivedText);
 							}), function (err) {
 								console.log("err", err);
 							};
@@ -130,22 +150,28 @@
 			};
 
 			$scope.odpowiedz = function () {
-				if(!$scope.actLang.equals("en"))
-				{
-					$http.post("/api/send/type=MESSAGE/code=" + $scope.code+"/"+$scope.actLang + "/message=" + $scope.tresc.replace(" ", "%20")).then(function (value) {
-						console.log("ok", value);
-					}), function (err) {
-						console.log("err", err);
-					};
-				}
-				else
-				{
-					$http.post("/api/send/type=REPLY/code=" + $scope.code + "/message=" + $scope.tresc.replace(" ", "%20")).then(function (value) {
-								console.log("ok", $scope.code);
-							}), function (err) {
-								console.log("err", err);
-							};
-				}
+				// if($scope.actLang!="en")
+				// {
+				// 	$http.post("/api/send/type=MESSAGE/code=" + $scope.code+"/"+$scope.actLang + "/message=" + $scope.tresc.replace(" ", "%20")+"/o="+$scope.tresc).then(function (value) {
+				// 		console.log("ok", value);
+				// 	}), function (err) {
+				// 		console.log("err", err);
+				// 	};
+				// }
+				// else
+				// {
+				// 	$http.post("/api/send/type=REPLY/code=" + $scope.code + "/message=" + $scope.tresc.replace(" ", "%20")).then(function (value) {
+				// 				console.log("ok", $scope.code);
+				// 			}), function (err) {
+				// 				console.log("err", err);
+				// 			};
+				// }
+
+                $http.post("/api/send/type=MESSAGE/code=" + $scope.code+"/"+$scope.actLang + "/message=" + $scope.tresc.replace(" ", "%20")+"/o="+$scope.tresc).then(function (value) {
+                    console.log("ok", value);
+                }), function (err) {
+                    console.log("err", err);
+                };
 			};
 
 			// $scope.odpowiedz=function(){
@@ -176,6 +202,7 @@
 				$scope.actLang="en";
                 $scope.room="Room";
                 $scope.bookingWashing="Booking washing";
+				$scope.pralki=$scope.pralki_en;
 
 				$http.get("/api/faq/"+$scope.actLang).then(function (value) {
 					$scope.faq = value.data;
@@ -191,6 +218,7 @@
 				$scope.actLang="de";
                 $scope.room="Zimmer";
                 $scope.bookingWashing="Buchung waschen";
+                $scope.pralki=$scope.pralki_de;
 
 				$http.get("/api/faq/"+$scope.actLang).then(function (value) {
 					$scope.faq = value.data;
@@ -214,20 +242,23 @@
 
 			$scope.odpFaq=function(faq){
 				console.log("odp FAQ",faq);
+				$scope.options=faq.options;
 
 				if(faq.dialog)
 				{
 					var dialog= ngDialog.open({
-						template: '/template1.html',
+						template: '/'+faq.template+'.html',
 						className: 'ngdialog-theme-default',
 						scope: $scope,
 						data: $scope.insertedRoom
 					});
 
+					$scope.t=faq.returnedText;
+
 					dialog.closePromise.then(function (data){
 						console.log("Data popup",data);
 						$scope.insertedRoom=data.value;
-						$http.post("/api/send/type=MESSAGE/code=" + $scope.code+"/"+$scope.actLang + "/message=" + faq.text.replace(" ", "%20")+" "+$scope.insertedRoom).then(function (value) {
+						$http.post("/api/send/type=MESSAGE/code=" + $scope.code+"/"+$scope.actLang + "/message="+faq.returnedText.replace('""',"")+" " + $scope.insertedRoom.replace(" ", "%20")).then(function (value) {
 							console.log("odpFAQ", value);
 						}), function (err) {
 							console.log("err", err);

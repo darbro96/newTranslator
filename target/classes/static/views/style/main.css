@@ -5,7 +5,7 @@ body{
 }
 
 #gora{
-	position: fixed;
+	pposition: fixed;
 	width: 100%;
 	height: 60px;
 	background: #800123;
@@ -17,8 +17,10 @@ body{
 #lewo{
 	width: 25%;
 	height: 100%;
-	background: #ffffff;
+    background-image: linear-gradient(to left bottom, #800123, #6f0020, #5e001c, #4d0117, #3d0112);
 	float: left;
+    color: #ffffff;
+    text-align: center;
 }
 
 #prawo{
@@ -73,9 +75,9 @@ body{
   -moz-box-sizing: content-box;
   box-sizing: content-box;
   cursor: pointer;
-  padding: 10px 20px;
-  margin-bottom: 10px;
-  border-bottom: 1px solid #800123;
+  padding: 10px 30px;
+  margin-bottom: 20px;
+  border-radius: 20px;
 
   font-size: 20px;
   font-weight: bold;
@@ -88,11 +90,14 @@ body{
   -o-transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
   transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
 }
-
+#prawoSrodek{
+    width: 80%;
+    margin: 0 auto;
+}
 .MESSAGE{
-  width: 80%;
+  width: 60%;
   text-align: left;
-  margin: 0 auto;
+    float: left;
   -webkit-box-sizing: content-box;
   -moz-box-sizing: content-box;
   box-sizing: content-box;
@@ -100,9 +105,9 @@ body{
   padding: 10px 20px;
   margin-bottom: 10px;
   border: 1px solid #800123;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
-    border-radius-bottomleft: 0px;
+
+  border-radius: 20px;
+
   font-size: 20px;
   font-weight: bold;
   color: #ffffff;
@@ -118,9 +123,9 @@ body{
 }
 
 .REPLY{
-  width: 80%;
+  width: 60%;
+    float: right;
   text-align: right;
-  margin: 0 auto;
   -webkit-box-sizing: content-box;
   -moz-box-sizing: content-box;
   box-sizing: content-box;
@@ -128,8 +133,7 @@ body{
   padding: 10px 20px;
   margin-bottom: 10px;
   border: 1px solid #800123;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
+    border-radius: 20px;
   font-size: 20px;
   font-weight: bold;
   color: #800123;
@@ -142,6 +146,7 @@ body{
   -moz-transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
   -o-transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
   transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
+    mmargin-right: -40%;
 }
 #wpisz{
 	bbackground-color: yellow;
@@ -252,13 +257,13 @@ button#nrPok{
     bbackground-color: cornflowerblue;
     hwidth: 30%;
    hheight: 30%;
-    font-size: 30px;
-    padding: 30px;
+    font-size: 20px;
+    padding: 10px;
     font-weight: bold;
     text-align: center;
     border: none;
     background-color: #e7e7e7; color: black;
-    margin: 10px;
+    margin: 8px;
     border-radius: 20px;
 
 }
@@ -277,3 +282,19 @@ button#nrPokOk{
     border-radius: 20px;
 
 }
+
+button#wyborDialog{
+    box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2) ;
+    color: #800123;
+    background-color: #ffffff;
+    border: 1px solid #800123;
+    width: 100%;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 10px;
+    margin: 15px;
+
+}
+
+
+

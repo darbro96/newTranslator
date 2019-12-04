@@ -1,6 +1,6 @@
 <script type="text/javascript" src="../js/lib/angular.min.js"></script>
 <div ng-controller="controller">
     <div data-ng-repeat="r in options">
-        <p ng-click="closeThisDialog(r)">{{r}}</p>
+        <button ng-click="closeThisDialog(r)" id="wyborDialog">{{r}}</button>
     </div>
 </div>
