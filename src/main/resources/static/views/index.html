@@ -6,6 +6,16 @@
 	<script type="text/javascript" src="../js/lib/angular.min.js"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ng-dialog/1.0.1/css/ngDialog.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ng-dialog/1.0.1/css/ngDialog-theme-default.min.css">
+
+
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+
 </head>
 
 <body ng-app="translator" ng-controller="controller">
@@ -31,10 +41,52 @@
 
 	</div>
 	<div id="prawo">
+
+		<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+			<!-- Brand -->
+			<a class="navbar-brand" href="#"><img src="img/logoUTP.png" height="50" alt="mdb logo"></a>
+
+			<!-- Toggler/collapsibe Button -->
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<!-- Navbar links -->
+			<div class="collapse navbar-collapse" id="collapsibleNavbar">
+				<ul class="navbar-nav">
+					<li class="nav-item">
+						<a class="nav-link" href="#"><img src="img/flagENG.png" height="50" ng-click="setEn()"/></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#"><img src="img/flagGER.png" height="50" ng-click="setDe()"/></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#"><img src="img/flagITA.png" height="50" ng-click="setEn()"/></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#"><img src="img/flagSPA.png" height="50" ng-click="setDe()"/></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#"><img src="img/flagGER.png" height="50" ng-click="setDe()"/></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#"><img src="img/flagITA.png" height="50" ng-click="setEn()"/></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#"><img src="img/flagSPA.png" height="50" ng-click="setDe()"/></a>
+					</li>
+
+				</ul>
+			</div>
+		</nav>
+
+
+
+
 		<div id="gora">
 
-			<img src="img/flagENG.png" width="5%" ng-click="setEn()"/>
-			<img src="img/flagGER.png" width="5%" ng-click="setDe()"/>
+
+
 			<!--				<img src="img/flagITA.png" width="5%" />-->
 			<!--				<img src="img/flagSPA.png" width="5%" />-->
 
