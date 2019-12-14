@@ -1,5 +1,5 @@
 Key to the room;true;template1;Key to the room;""
-Washing;true;template2;"";I return the key to the washing machine@The washing machine key, please
+Washing;true;template2;"";I return the key to the washing machine.@The key to the washing machine, please.
 No current;false
 Burned out light bulb;false
 The administration is open?;false

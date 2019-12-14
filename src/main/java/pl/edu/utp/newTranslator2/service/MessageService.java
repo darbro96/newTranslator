@@ -6,7 +6,6 @@ import pl.edu.utp.newTranslator2.entity.Message;
 import pl.edu.utp.newTranslator2.enums.MessageType;
 import pl.edu.utp.newTranslator2.repository.MessageRepository;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,13 +48,4 @@ public class MessageService {
     public void deleteAll() {
         messageRepository.deleteAll();
     }
-
-//    @PostConstruct
-//    private void addTestMessage() {
-//        Message message = new Message();
-//        message.setContent("Wiadomość testowa [automatycznie wygenerowana]");
-//        message.setCode("ABC-DEF");
-//        message.setMessageType(MessageType.MESSAGE);
-//        messageRepository.save(message);
-//    }
 }

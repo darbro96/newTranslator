@@ -20,4 +20,16 @@ public class ViewController {
     public String loadView(@PathVariable("name") String name) {
         return name + ".html";
     }
+
+    @RequestMapping("/{akad}/r")
+    public String reception2()
+    {
+        return "rec2.html";
+    }
+
+    @RequestMapping("/{akad}")
+    public String index2()
+    {
+        return "index2.html";
+    }
 }

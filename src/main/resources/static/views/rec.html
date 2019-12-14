@@ -133,7 +133,7 @@
 			// };
 
 			$scope.odpowiedz = function (text, textOriginal) {
-				$http.post("/api/send/type=REPLY/code=" + $scope.code  + "/message=" + text.replace(" ", "%20")+"/o="+textOriginal).then(function (value) {
+				$http.post("/api/send/type=REPLY/code=" + $scope.code  + "/pl/message=" + text.replace(" ", "%20")+"/o="+textOriginal).then(function (value) {
 					console.log("ok", value);
 				}), function (err) {
 					console.log("err", err);

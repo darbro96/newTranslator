@@ -15,8 +15,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @org.springframework.web.bind.annotation.RestController
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
 public class RestController {
     @Autowired
     private MessageService messageService;
+    private final Logger logger=Logger.getLogger(getClass().getName());
 
     @PostMapping("/send/type={type}/code={code}/message={message}")
     public void putMessage(@PathVariable("message") String message, @PathVariable("type") String type, @PathVariable("code") String code) {
@@ -131,8 +133,7 @@ public class RestController {
                 line = reader.readLine();
             }
         } catch (IOException e) {
-            //list = Arrays.asList("Pokój", "Poproszę klucz do pralki", "Brak prądu", "Przepalona żarówka", "Czy administracja jest otwarta?");
-            e.printStackTrace();
+            logger.log(Level.ALL,e.toString(),e);
         }
         return list;
     }

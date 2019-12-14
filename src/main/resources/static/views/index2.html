@@ -1,0 +1,311 @@
+<html>
+<head><title>UTP Translate</title>
+<link rel="stylesheet" href="views/style/main.css" type="text/css">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
+	<script type="text/javascript" src="../js/lib/angular.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ng-dialog/1.0.1/css/ngDialog.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ng-dialog/1.0.1/css/ngDialog-theme-default.min.css">
+</head>
+
+<body ng-app="translator" ng-controller="controller">
+<div id="ContainerLogowanie" ng-hide="hasCode">
+	<div id="logowanie">
+		<img src="img/logo_header.png" wwidth="20%" /><br><br>
+		<div id="pola">
+			Wpisz kod z okna recepcji:
+			<input type="text" id="pole1" ng-model="insertCode">-<input type="text" id="pole2" ng-model="insertCode2"><br>
+			<input type="button" value="połącz..." id="pole3" ng-click="setCode()">
+		</div>
+	</div>
+
+</div>
+<div id="Container" ng-show="hasCode">
+
+	<div id="lewo"><br>
+		<img src="img/talk.png" width="40%"/><br>
+		<br>
+		<div class="przycisk" data-ng-repeat="q in faq">
+			<div ng-click="odpFaq(q)">{{q.text}}</div>
+		</div>
+
+	</div>
+	<div id="prawo">
+		<div id="gora">
+
+			<img src="img/flagENG.png" width="5%" ng-click="setEn()"/>
+			<img src="img/flagGER.png" width="5%" ng-click="setDe()"/>
+			<!--				<img src="img/flagITA.png" width="5%" />-->
+			<!--				<img src="img/flagSPA.png" width="5%" />-->
+
+		</div>
+
+		<br><br><br><br>
+		<div>
+			Code: {{code}}
+		</div>
+		<div id="prawoSrodek">
+			<div class="{{r.messageType}}" data-ng-repeat="r in receivedText">
+				<!--				Odebrano <b> {{r.timeStamp}} </b><br>-->
+				<!--				Treść: <b>{{r.content}}</b>-->
+				<!--				<button ng-click="usun(r.id)">Usuń</button>-->
+				{{r.content}}
+			</div></div>
+		<!--			<div class="wiadomoscOne">-->
+		<!--				tresc-->
+		<!--			</div>-->
+		<!--			<div class="wiadomoscTwo">-->
+		<!--				tresc-->
+		<!--			</div>-->
+		<!--			<div class="wiadomoscOne">-->
+		<!--				tresc-->
+		<!--			</div>-->
+		<!--			<div class="wiadomoscTwo">-->
+		<!--				tresc-->
+		<!--			</div>-->
+		<div id="wpisz">
+			<input type="text" value="Wprowadz tekst..." ng-model="tresc"><input type="button" value=">" ng-click="odpowiedz()">
+		</div>
+
+
+	</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ng-dialog/1.0.1/js/ngDialog.min.js"></script>
+	<script type="text/javascript">
+		angular.module('translator', ['ngDialog']).controller('controller', function ($scope, $http, ngDialog, $location) {
+			$scope.receivedText = "";
+			$scope.faq="";
+			$scope.actLang="en";
+			$scope.room="Room";
+			$scope.bookingWashing="Booking washing";
+			$scope.conversationSize=0;
+			$scope.conversationLoaded=true;
+			$scope.hasCode=true;
+			$scope.code="";
+			$scope.insertedRoom="";
+
+			$scope.code=$location.absUrl().substring($location.absUrl().lastIndexOf("/")+1);
+
+
+
+			$http.get("/api/faq/"+$scope.actLang).then(function (value) {
+				$scope.faq = value.data;
+				console.log("FAQ loaded", value);
+			}), function (err) {
+				console.log("err - FAQ", err);
+			};
+
+			setInterval(function () {
+				if($scope.conversationLoaded)
+				{
+					$http.get("/api/all/count/"+$scope.code).then(function (value) {
+						if($scope.conversationSize!=value.data)
+						{
+							console.log("New conversation size", value.data);
+							$scope.conversationSize=value.data;
+							$http.get("/api/getMessages/code="+$scope.code+"/lang="+$scope.actLang).then(function (value) {
+							//$http.get("/api/all/"+$scope.actLang).then(function (value) {
+								$scope.receivedText = value.data;
+								console.log("Conversation Reload", $scope.receivedText);
+							}), function (err) {
+								console.log("err", err);
+							};
+						}
+					}), function (err) {
+						console.log("err - FAQ", err);
+					};
+				}
+			}, 1000);
+
+			$scope.usun = function (id) {
+				$http.delete("/api/del/" + id).then(function (value) {
+					console.log("ok", "deleted selected message");
+				}), function (err) {
+					console.log("err", err);
+				};
+				//location.reload();
+			};
+
+			$scope.usunAll = function () {
+				$http.delete("/api/del/all").then(function (value) {
+					console.log("ok", "deleted All");
+				}), function (err) {
+					console.log("err", err);
+				};
+				//location.reload();
+			};
+
+			$scope.odpowiedz = function () {
+				// if($scope.actLang!="en")
+				// {
+				// 	$http.post("/api/send/type=MESSAGE/code=" + $scope.code+"/"+$scope.actLang + "/message=" + $scope.tresc.replace(" ", "%20")+"/o="+$scope.tresc).then(function (value) {
+				// 		console.log("ok", value);
+				// 	}), function (err) {
+				// 		console.log("err", err);
+				// 	};
+				// }
+				// else
+				// {
+				// 	$http.post("/api/send/type=REPLY/code=" + $scope.code + "/message=" + $scope.tresc.replace(" ", "%20")).then(function (value) {
+				// 				console.log("ok", $scope.code);
+				// 			}), function (err) {
+				// 				console.log("err", err);
+				// 			};
+				// }
+
+                $http.post("/api/send/type=MESSAGE/code=" + $scope.code+"/"+$scope.actLang + "/message=" + $scope.tresc.replace(" ", "%20")+"/o="+$scope.tresc).then(function (value) {
+                    console.log("ok", value);
+                }), function (err) {
+                    console.log("err", err);
+                };
+			};
+
+			// $scope.odpowiedz=function(){
+			// 	$scope.tresc+="1";
+			// 	console.log("KLIKNIĘTO 1!!!!",$scope.tresc);
+			// };
+
+			$scope.generujKod = function () {
+				$http.get("api/reception/generate").then(function (value) {
+					console.log("code", value.data.code);
+					$scope.code=value.data.code;
+				}), function (err) {
+					console.log("err", err);
+				};
+			};
+
+            $scope.tlumacz=function()
+            {
+				$http.get("/api/getMessages/code="+$scope.code+"/lang="+$scope.actLang).then(function (value) {
+                    $scope.receivedText = value.data;
+                    console.log("Conversation", "Reload ["+$scope.actLang+"]");
+                }), function (err) {
+                    console.log("err", err);
+                };
+            }
+
+			$scope.setEn=function () {
+				$scope.actLang="en";
+                $scope.room="Room";
+                $scope.bookingWashing="Booking washing";
+				$scope.pralki=$scope.pralki_en;
+
+				$http.get("/api/faq/"+$scope.actLang).then(function (value) {
+					$scope.faq = value.data;
+					console.log("FAQ loaded", value);
+				}), function (err) {
+					console.log("err - FAQ", err);
+				};
+
+				$scope.tlumacz();
+			};
+
+			$scope.setDe=function () {
+				$scope.actLang="de";
+                $scope.room="Zimmer";
+                $scope.bookingWashing="Buchung waschen";
+                $scope.pralki=$scope.pralki_de;
+
+				$http.get("/api/faq/"+$scope.actLang).then(function (value) {
+					$scope.faq = value.data;
+					console.log("FAQ loaded", value);
+				}), function (err) {
+					console.log("err - FAQ", err);
+				};
+
+				$scope.tlumacz();
+			};
+
+			$scope.roomMessage=function() {
+			    var nr=prompt("Numer pokoju:");
+			    var wiadomosc="Pokój "+nr;
+                $http.post("/api/send/type=MESSAGE/code=" + $scope.code+"/"+$scope.actLang + "/message=" + wiadomosc.replace(" ", "%20")).then(function (value) {
+                    console.log("Send Pokój "+nr, value);
+                }), function (err) {
+                    console.log("err", err);
+                };
+            };
+
+			$scope.odpFaq=function(faq){
+				console.log("odp FAQ",faq);
+				$scope.options=faq.options;
+
+				if(faq.dialog)
+				{
+					var dialog= ngDialog.open({
+						template: '/'+faq.template+'.html',
+						className: 'ngdialog-theme-default',
+						scope: $scope,
+						data: $scope.insertedRoom
+					});
+
+					$scope.t=faq.returnedText;
+
+					dialog.closePromise.then(function (data){
+						console.log("Data popup",data);
+						$scope.insertedRoom=data.value;
+						if(!$scope.insertedRoom.includes("$")) {
+							$http.post("/api/send/type=MESSAGE/code=" + $scope.code + "/" + $scope.actLang + "/message=" + faq.returnedText.replace('""', "") + " " + $scope.insertedRoom.replace(" ", "%20")).then(function (value) {
+								console.log("odpFAQ", value);
+							}), function (err) {
+								console.log("err", err);
+							};
+						}
+					});
+				}
+				else
+				{
+					$http.post("/api/send/type=MESSAGE/code=" + $scope.code+"/"+$scope.actLang + "/message=" + faq.text.replace(" ", "%20")).then(function (value) {
+						console.log("odpFAQ", value);
+					}), function (err) {
+						console.log("err", err);
+					};
+				}
+
+			};
+
+			$scope.setCode=function () {
+				$scope.code=$scope.insertCode+"-"+$scope.insertCode2;
+				console.log("code",$scope.code);
+
+				$http.post("/api/send/type=MESSAGE/code=" + $scope.code+"/test").then(function (value) {
+					console.log("test message send", "ok");
+					$scope.hasCode=true;
+				}), function (err) {
+					console.log("err", err);
+				};
+
+				$http.get("/api/getMessages/code="+$scope.code+"/lang="+$scope.actLang).then(function (value) {
+					//$http.get("/api/all/"+$scope.actLang).then(function (value) {
+					$scope.receivedText = value.data;
+					$scope.conversationLoaded=true;
+					console.log("Conversation loaded on start", "ok");
+					$http.get("/api/all/count/"+$scope.code+$scope.code).then(function (value) {
+						$scope.conversationSize = value.data;
+						console.log("Conversation size", value.data);
+					}), function (err) {
+						console.log("err - FAQ", err);
+					};
+				}), function (err) {
+					console.log("Conversation loaded on start", err);
+				};
+			};
+
+			//przyciski w popup
+			$scope.click1=function (number) {
+				$scope.insertedRoom+=number;
+				console.log("Room",$scope.insertedRoom);
+			};
+
+		});
+
+	</script>
+<script type="text/javascript">
+	function funkcja()
+	{
+		document.getElementById("no_room").value += 1;
+		document.getElementById("no_room").click();
+	}
+</script>
+</body>
+</html>
