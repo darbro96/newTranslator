@@ -4,3 +4,9 @@ No current;false
 Burned out light bulb;false
 The administration is open?;false
 Thank you;false
+Key to the room;true;template1;Key to the room;""
+Key to the room;true;template1;Key to the room;""
+Key to the room;true;template1;Key to the room;""
+Key to the room;true;template1;Key to the room;""
+Key to the room;true;template1;Key to the room;""
+Key to the room;true;template1;Key to the room;""

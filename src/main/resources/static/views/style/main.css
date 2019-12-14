@@ -24,9 +24,11 @@ body{
 	width: 25%;
 	height: 100%;
     background-image: linear-gradient(to left bottom, #800123, #6f0020, #5e001c, #4d0117, #3d0112);
+    bbackground-image: url("/img/obrazek2.jpg");
 	float: left;
     color: #ffffff;
     text-align: center;
+    overflow: auto;
 }
 
 #prawo{
@@ -36,6 +38,7 @@ body{
 	background: #ECEEF2;
 	float: left;
     ppadding: 10px;
+    overflow: auto;
 }
 
 .podpowiedz{
