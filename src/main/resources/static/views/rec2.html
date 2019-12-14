@@ -6,6 +6,8 @@
 	<script type="text/javascript" src="../js/lib/angular.min.js"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ng-dialog/1.0.1/css/ngDialog.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ng-dialog/1.0.1/css/ngDialog-theme-default.min.css">
+	<script src="https://cdn.pubnub.com/pubnub-3.15.1.min.js"></script>
+	<script src="https://cdn.pubnub.com/sdk/pubnub-angular/pubnub-angular-3.2.1.min.js"></script>
 </head>
 
 <body ng-app="translator" ng-controller="controller">
@@ -24,16 +26,16 @@
 		<div id="lewo"><br>
 
 			<div class="przycisk">
-				<div ng-click="odpowiedz('Yes','Tak')">Tak.</div>
+				<div ng-click="odpowiedz('Yes.','Tak')">Tak.</div>
 			</div>
 			<div class="przycisk">
-				<div ng-click="odpowiedz('No','Nie')">Nie.</div>
+				<div ng-click="odpowiedz('No.','Nie')">Nie.</div>
 			</div>
 			<div class="przycisk">
-				<div ng-click="odpowiedz('I do not understand','Nie rozumiem')">Nie rozumiem.</div>
+				<div ng-click="odpowiedz('I do not understand.','Nie rozumiem')">Nie rozumiem.</div>
 			</div>
 			<div class="przycisk">
-				<div ng-click="odpowiedz('Show your dormitory card','Pokaż kartę mieszkańca')">Pokaż kartę mieszkańca.</div>
+				<div ng-click="odpowiedz('Show your dormitory card.','Pokaż kartę mieszkańca')">Pokaż kartę mieszkańca.</div>
 			</div>
 
 		</div>
@@ -50,6 +52,7 @@
 <!--				Odebrano <b> {{r.timeStamp}} </b><br>-->
 <!--				Treść: <b>{{r.content}}</b>-->
 <!--				<button ng-click="usun(r.id)">Usuń</button>-->
+				<button ng-click="say(r.messageType=='REPLY'?r.originalContent:r.content)">Mów</button>
 				{{r.messageType=="REPLY"?r.originalContent:r.content}}
 			</div>
 <!--			<div class="wiadomoscOne">-->
@@ -76,7 +79,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ng-dialog/1.0.1/js/ngDialog.min.js"></script>
 
 	<script type="text/javascript">
-		angular.module('translator', ['ngDialog']).controller('controller', function ($scope, $http, ngDialog, $location) {
+		angular.module('translator', ['ngDialog',"pubnub.angular.service"]).controller('controller', function ($scope, $http, ngDialog, $location) {
 			$scope.receivedText = "";
 			$scope.conversationSize=0;
 			$scope.conversationLoaded=false;
@@ -84,6 +87,7 @@
 			$scope.code="";
 			$scope.napis="Napis";
 			$scope.testcode=$location.absUrl();
+			$scope.said=false;
 			console.log("KOD TESTOWY:",$scope.testcode);
 			console.log("location:",$location);
 			$scope.codeTmp=$location.absUrl().substring(0,$location.absUrl().lastIndexOf("/"));
@@ -103,6 +107,7 @@
 					$http.get("/api/all/count/"+$scope.code).then(function (value) {
 						if($scope.conversationSize!=value.data)
 						{
+							$scope.said=false;
 							console.log("New conversation size", value.data);
 							$scope.conversationSize=value.data;
 							//$http.get("/api/getMessages/code="+$scope.code).then(function (value) {
@@ -110,6 +115,11 @@
 							$http.get("/api/getMessages/code="+$scope.code+"/lang=pl").then(function (value){
 								$scope.receivedText = value.data;
 								console.log("Conversation Reload", $scope.receivedText);
+								if($scope.receivedText[$scope.receivedText.length-1].messageType!="REPLY" && !$scope.said)
+								{
+									$scope.say($scope.receivedText[$scope.receivedText.length-1].content);
+									$scope.said=true;
+								}
 							}), function (err) {
 								console.log("err", err);
 							};
@@ -192,6 +202,19 @@
 				}), function (err) {
 					console.log("Conversation loaded on start", err);
 				};
+			};
+
+			$scope.say=function (text) {
+				var msg = new SpeechSynthesisUtterance();
+				var voices = window.speechSynthesis.getVoices();
+				msg.voice = voices[10];
+				msg.voiceURI = 'native';
+				msg.volume = 1;
+				msg.rate = 1;
+				msg.pitch = 1;
+				msg.text = text;
+				msg.lang = "pl-PL";
+				speechSynthesis.speak(msg);
 			};
 		});
 
