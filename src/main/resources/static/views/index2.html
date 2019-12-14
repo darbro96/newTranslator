@@ -6,6 +6,9 @@
 	<script type="text/javascript" src="../js/lib/angular.min.js"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ng-dialog/1.0.1/css/ngDialog.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ng-dialog/1.0.1/css/ngDialog-theme-default.min.css">
+	<script src="https://cdn.pubnub.com/pubnub-3.15.1.min.js"></script>
+	<script src="https://cdn.pubnub.com/sdk/pubnub-angular/pubnub-angular-3.2.1.min.js"></script>
+
 </head>
 
 <body ng-app="translator" ng-controller="controller">
@@ -49,7 +52,7 @@
 				<!--				Odebrano <b> {{r.timeStamp}} </b><br>-->
 				<!--				Treść: <b>{{r.content}}</b>-->
 				<!--				<button ng-click="usun(r.id)">Usuń</button>-->
-				{{r.content}}
+				<button ng-click="say(r.content,speakLang)">Say</button> {{r.content}}
 			</div></div>
 		<!--			<div class="wiadomoscOne">-->
 		<!--				tresc-->
@@ -72,7 +75,7 @@
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ng-dialog/1.0.1/js/ngDialog.min.js"></script>
 	<script type="text/javascript">
-		angular.module('translator', ['ngDialog']).controller('controller', function ($scope, $http, ngDialog, $location) {
+		angular.module('translator', ['ngDialog',"pubnub.angular.service"]).controller('controller', function ($scope, $http, ngDialog, $location) {
 			$scope.receivedText = "";
 			$scope.faq="";
 			$scope.actLang="en";
@@ -83,9 +86,10 @@
 			$scope.hasCode=true;
 			$scope.code="";
 			$scope.insertedRoom="";
+			$scope.speakLang="en-EN";
+			$scope.said=false;
 
 			$scope.code=$location.absUrl().substring($location.absUrl().lastIndexOf("/")+1);
-
 
 
 			$http.get("/api/faq/"+$scope.actLang).then(function (value) {
@@ -101,12 +105,18 @@
 					$http.get("/api/all/count/"+$scope.code).then(function (value) {
 						if($scope.conversationSize!=value.data)
 						{
+							$scope.said=false;
 							console.log("New conversation size", value.data);
 							$scope.conversationSize=value.data;
 							$http.get("/api/getMessages/code="+$scope.code+"/lang="+$scope.actLang).then(function (value) {
 							//$http.get("/api/all/"+$scope.actLang).then(function (value) {
 								$scope.receivedText = value.data;
 								console.log("Conversation Reload", $scope.receivedText);
+								if($scope.actLang=="en" && $scope.receivedText[$scope.receivedText.length-1].messageType=="REPLY" && !$scope.said)
+								{
+									$scope.say($scope.receivedText[$scope.receivedText.length-1].content,$scope.actLang);
+									$scope.said=true;
+								}
 							}), function (err) {
 								console.log("err", err);
 							};
@@ -186,6 +196,7 @@
 
 			$scope.setEn=function () {
 				$scope.actLang="en";
+				$scope.speakLang="en-EN";
                 $scope.room="Room";
                 $scope.bookingWashing="Booking washing";
 				$scope.pralki=$scope.pralki_en;
@@ -202,6 +213,7 @@
 
 			$scope.setDe=function () {
 				$scope.actLang="de";
+				$scope.speakLang="de-DE";
                 $scope.room="Zimmer";
                 $scope.bookingWashing="Buchung waschen";
                 $scope.pralki=$scope.pralki_de;
@@ -295,6 +307,20 @@
 			$scope.click1=function (number) {
 				$scope.insertedRoom+=number;
 				console.log("Room",$scope.insertedRoom);
+			};
+
+			$scope.say=function (text,language) {
+				console.log("Say in language",language);
+				var msg = new SpeechSynthesisUtterance();
+				var voices = window.speechSynthesis.getVoices();
+				msg.voice = voices[10];
+				msg.voiceURI = 'native';
+				msg.volume = 1;
+				msg.rate = 1;
+				msg.pitch = 1;
+				msg.text = text;
+				msg.lang = language;
+				speechSynthesis.speak(msg);
 			};
 
 		});
