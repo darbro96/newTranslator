@@ -68,7 +68,7 @@
 		<!--				tresc-->
 		<!--			</div>-->
 		<div id="wpisz">
-			<input type="text" value="Wprowadz tekst..." ng-model="tresc"><input type="button" value=">" ng-click="odpowiedz()">
+			<input type="text" value="Wprowadz tekst..." ng-model="tresc" ng-keydown="$event.keyCode === 13 && odpowiedz()"><input type="button" value=">" ng-click="odpowiedz()">
 		</div>
 
 
