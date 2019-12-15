@@ -1,6 +1,4 @@
 Key to the room;true;template1;Key to the room;""
 Washing;true;template2;"";I return the key to the washing machine.@The key to the washing machine, please.
-No current;false
-Burned out light bulb;false
-The administration is open?;false
+Failures;true;template2;"";There is no electricity in the room.@There's no water.@The washing machine is broken.@Burned out light bulb.
 Thank you;false

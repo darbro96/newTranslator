@@ -1,9 +1,10 @@
 html{
-    margin: 0 auto;
-    height:100%;
     width: 100%;
+    height: 100%;
 }
 body{
+    width: 100%;
+    height: 100%;
     margin: 0 auto;
     font-family: lato;
     background-image: url("/img/obrazek.jpg");
@@ -14,27 +15,33 @@ body{
     pposition: fixed;
     width: 100%;
     height: 60px;
-    background: #5C5C5C;
+    background: #800123;
 
 }
 
 
 
-#lewo{
-    width: 25%;
+.lewo{
+    wwidth: 25%;
     height: 100%;
-    background-image: linear-gradient(to left bottom, #5c5c5c, #4a4a4a, #393939, #292829, #1a1919);    float: left;
+    background-image: linear-gradient(to left bottom, #800123, #6f0020, #5e001c, #4d0117, #3d0112);
+    bbackground-image: url("/img/obrazek2.jpg");
+    float: left;
     color: #ffffff;
     text-align: center;
+    overflow: auto;
+    padding-top: 100px;
+
 }
 
-#prawo{
+.prawo{
     text-align: center;
-    width: 75%;
     height: 100%;
     background: #ECEEF2;
     float: left;
-    ppadding: 10px;
+    padding-top: 100px;
+
+
 }
 
 .podpowiedz{
@@ -96,102 +103,111 @@ body{
     -o-transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
     transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
 }
-#prawoSrodek{
-    width: 80%;
+.prawoSrodek{
+    width: 90%;
+    height: 65%;
     margin: 0 auto;
-    padding-bottom: 100px;
-}
 
+    overflow: auto;
+    bbackground-color: #4CAF50;
+}
+#tytul{
+    float: left;
+    width: 100%;
+    bbackground-color: yellow;
+}
+#koniec{
+    float: left;
+    width: 100%;
+    background-color: blueviolet;
+}
 .REPLY{
-  width: 80%;
-  text-align: left;
-  margin: 0 auto;
-  -webkit-box-sizing: content-box;
-  -moz-box-sizing: content-box;
-  box-sizing: content-box;
-  cursor: pointer;
-  padding: 10px 20px;
-  margin-bottom: 10px;
-  border: 1px solid #800123;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
-  font-size: 20px;
-  font-weight: bold;
-  color: #ffffff;
-  -o-text-overflow: clip;
-  text-overflow: clip;
-  background: #800123;
-  -webkit-box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2) ;
-  box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2) ;
-  -webkit-transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
-  -moz-transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
-  -o-transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
-  transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
+    width: 60%;
+    text-align: left;
+    float: left;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    cursor: pointer;
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    border: 1px solid #800123;
+
+    border-radius: 20px;
+
+    font-size: 20px;
+    font-weight: bold;
+    color: #ffffff;
+    -o-text-overflow: clip;
+    text-overflow: clip;
+    background: #800123;
+    -webkit-box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2) ;
+    box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2) ;
+    -webkit-transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
+    -moz-transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
+    -o-transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
+    transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
 }
 
 .MESSAGE{
-  width: 80%;
-  text-align: right;
-  margin: 0 auto;
-  -webkit-box-sizing: content-box;
-  -moz-box-sizing: content-box;
-  box-sizing: content-box;
-  cursor: pointer;
-  padding: 10px 20px;
-  margin-bottom: 10px;
-  border: 1px solid #800123;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
-  font-size: 20px;
-  font-weight: bold;
-  color: #800123;
-  -o-text-overflow: clip;
-  text-overflow: clip;
-  background: #ffffff;
-  -webkit-box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2) ;
-  box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2) ;
-  -webkit-transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
-  -moz-transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
-  -o-transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
-  transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
+    width: 60%;
+    float: right;
+    text-align: right;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    cursor: pointer;
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    border: 1px solid #800123;
+    border-radius: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #800123;
+    -o-text-overflow: clip;
+    text-overflow: clip;
+    background: #ffffff;
+    -webkit-box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2) ;
+    box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2) ;
+    -webkit-transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
+    -moz-transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
+    -o-transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
+    transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
+    mmargin-right: -40%;
 }
 #wpisz{
-	bbackground-color: yellow;
-	bottom: 0;
-	position: fixed;
-	width: 80%;
-	ppadding-left: 20px;
+    bbackground-color: yellow;
+    bottom: 0;
+    position: fixed;
+    width: 80%;
+    ppadding-left: 20px;
+    mmargin: 0 auto;
 }
 input{
-  width: 60%;
-  text-align: left;
-  -webkit-box-sizing: content-box;
-  -moz-box-sizing: content-box;
-  box-sizing: content-box;
-  cursor: pointer;
-  padding: 10px 20px;
-  margin-bottom: 10px;
-  border: 1px solid #800123;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
-  font-size: 20px;
-  font-weight: bold;
-  color: #800123;
-  -o-text-overflow: clip;
-  text-overflow: clip;
-  background: #ffffff;
-  -webkit-box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2) ;
-  box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2) ;
+    height: 45px;
+    width: 60%;
+    float: left;
+    text-align: left;
+    padding: 10px 20px;
+    mmargin-bottom: 10px;
+    border: 1px solid #800123;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    font-size: 30px;
+    font-weight: bold;
+    color: #800123;
+    background: #ffffff;
+    -webkit-box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2) ;
+    box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2) ;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
 }
 input[type=button]{
-	width: 5%;
-	background-color: #800123;
-	color: #ffffff;
-	padding-left: 10px;
-}
-#CcontainerLogowanieRecepcja{
-    width: 600px;
-    height: 400px;
+    width: 5%;
+    background-color: #800123;
+    color: #ffffff;
+    padding-left: 10px;
 }
 #logowanie{
     margin: 0 auto;
@@ -263,4 +279,52 @@ input#pole3{
     color: #ffffff;
     padding-left: 10px;
 }
+
+button#nrPok{
+    bbackground-color: cornflowerblue;
+    width: 20%;
+    hheight: 30%;
+    font-size: 20px;
+    padding: 10px;
+    font-weight: bold;
+    text-align: center;
+    border: none;
+    background-color: #e7e7e7; color: black;
+    margin: 8px;
+    border-radius: 20px;
+
+}
+button#nrPokOk{
+    bbackground-color: cornflowerblue;
+    width: 90%;
+    hheight: 30%;
+    font-size: 30px;
+    padding: 30px;
+    font-weight: bold;
+    text-align: center;
+    border: none;
+    background-color: #4CAF50;
+    color: #ffffff;
+    margin: 10px;
+    border-radius: 20px;
+
+}
+
+button#wyborDialog{
+    box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2) ;
+    color: #800123;
+    background-color: #ffffff;
+    border: 1px solid #800123;
+    width: 100%;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 10px;
+    margin-bottom: 25px;
+
+}
+dialogPok{
+    background-color: yellow;
+}
+
+
 

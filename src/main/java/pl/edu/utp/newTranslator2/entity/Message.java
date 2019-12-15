@@ -17,7 +17,7 @@ public class Message {
     private String code;
     private String content;
     private String timeStamp;
-    private MessageType messageType;
+    private MessageType messageType=MessageType.MESSAGE;
     private boolean testMessage=false;
     private String originalContent=null;
 

@@ -138,7 +138,7 @@ public class RestController {
         return list;
     }
 
-    @RequestMapping("/all/count/{code}")
+    @RequestMapping("/count/{code}")
     public int count(@PathVariable("code") String code) {
         return (int) messageService.findAll().stream().filter(m -> m.getCode().equals(code)).count();
     }

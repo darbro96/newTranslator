@@ -13,7 +13,7 @@ public class ViewController {
 
     @RequestMapping("/r")
     public String reception() {
-        return "rec.html";
+        return "rec3.html";
     }
 
     @RequestMapping("/{name}.html")
@@ -24,12 +24,12 @@ public class ViewController {
     @RequestMapping("/{akad}/r")
     public String reception2()
     {
-        return "rec2.html";
+        return "rec3.html";
     }
 
     @RequestMapping("/{akad}")
     public String index2()
     {
-        return "index2.html";
+        return "index.html";
     }
 }
