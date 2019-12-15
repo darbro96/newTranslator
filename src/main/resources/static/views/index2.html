@@ -52,7 +52,8 @@
 				<!--				Odebrano <b> {{r.timeStamp}} </b><br>-->
 				<!--				Treść: <b>{{r.content}}</b>-->
 				<!--				<button ng-click="usun(r.id)">Usuń</button>-->
-				<button ng-click="say(r.content,speakLang)">Say</button> {{r.content}}
+				<button ng-click="say(r.content,speakLang)">Say</button>
+                {{r.content}}
 			</div></div>
 		<!--			<div class="wiadomoscOne">-->
 		<!--				tresc-->
@@ -105,13 +106,13 @@
 					$http.get("/api/all/count/"+$scope.code).then(function (value) {
 						if($scope.conversationSize!=value.data)
 						{
-							$scope.said=false;
 							console.log("New conversation size", value.data);
 							$scope.conversationSize=value.data;
 							$http.get("/api/getMessages/code="+$scope.code+"/lang="+$scope.actLang).then(function (value) {
 							//$http.get("/api/all/"+$scope.actLang).then(function (value) {
 								$scope.receivedText = value.data;
 								console.log("Conversation Reload", $scope.receivedText);
+                                $scope.said=false;
 								if($scope.actLang=="en" && $scope.receivedText[$scope.receivedText.length-1].messageType=="REPLY" && !$scope.said)
 								{
 									$scope.say($scope.receivedText[$scope.receivedText.length-1].content,$scope.actLang);
@@ -313,6 +314,7 @@
 				console.log("Say in language",language);
 				var msg = new SpeechSynthesisUtterance();
 				var voices = window.speechSynthesis.getVoices();
+				console.log("Dostepne głosy",voices);
 				msg.voice = voices[10];
 				msg.voiceURI = 'native';
 				msg.volume = 1;
