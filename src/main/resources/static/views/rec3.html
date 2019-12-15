@@ -220,6 +220,7 @@
 		$scope.odpowiedz2 = function () {
 			$http.post("/api/send/type=REPLY/code=" + $scope.code+"/pl/message=" + $scope.tresc.replace(" ", "%20")+"/o="+$scope.tresc	).then(function (value) {
 				console.log("ok", value);
+				$scope.tresc="";
 			}), function (err) {
 				console.log("err", err);
 			};
