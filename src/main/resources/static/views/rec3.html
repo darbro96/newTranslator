@@ -32,7 +32,7 @@
 
 	<nav class="navbar navbar-expand-md bg-dark navbar-dark fixed-top">
 		<!-- Brand -->
-		<a class="navbar-brand" href="#"><img src="../img/talk.png" width="60"/></a>
+		<a class="navbar-brand" href="#"><img src="../img/logoUTP.png" width="65%"/></a>
 
 		<!-- Toggler/collapsibe Button -->
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
@@ -113,9 +113,10 @@
 		<!--				tresc-->
 		<!--			</div>-->
 		<div id="wpisz">
-			<input type="button" src="{{micSrc}}" width="30" ng-click="activeVoice()">
-			<input type="text" value="Wprowadz tekst..." ng-model="tresc" ng-keydown="$event.keyCode === 13 && odpowiedz2()"><input type="button" value=">" ng-click="odpowiedz()">
-			<input type="button" value="CZYŚĆ" ng-click="clear()">
+			<input type="image" src="{{micSrc}}" width="30" ng-click="activeVoice()">
+			<input type="text" value="Wprowadz tekst..." ng-model="tresc" ng-keydown="$event.keyCode === 13 && odpowiedz2()">
+			<input type="image" src="../img/send.png" ng-click="odpowiedz2()">
+			<input type="button" value="x" ng-click="clear()">
 
 		</div>
 
@@ -134,6 +135,7 @@
 		$scope.napis="Napis";
 		$scope.testcode=$location.absUrl();
 		$scope.said=false;
+		$scope.micSrc="../img/mic2.png";
 		console.log("KOD TESTOWY:",$scope.testcode);
 		console.log("location:",$location);
 		$scope.codeTmp=$location.absUrl().substring(0,$location.absUrl().lastIndexOf("/"));
@@ -274,13 +276,13 @@
 			if($scope.voiceActivated)
 			{
 				$scope.voiceActivated=false;
-				$scope.micSrc="img/mic2.png";
+				$scope.micSrc="../img/mic2.png";
 				$scope.say("Głos wyłączony","pl-PL");
 			}
 			else
 			{
 				$scope.voiceActivated=true;
-				$scope.micSrc="img/mic.png";
+				$scope.micSrc="../img/mic.png";
 				$scope.say("Głos włączony","pl-PL");
 			}
 		};

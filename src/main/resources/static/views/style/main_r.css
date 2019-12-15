@@ -203,8 +203,8 @@ input{
     -moz-box-sizing: content-box;
     box-sizing: content-box;
 }
-input[type=button]{
-    width: 5%;
+input[type=button], input[type=image]{
+    width: 45px;
     background-color: #800123;
     color: #ffffff;
     padding-left: 10px;
