@@ -1,5 +1,4 @@
 Schlüssel zum Zimmer;true;template1;Schlüssel zum Zimmer;""
-Wäsche;true;template2;"";Ich gebe den Schlüssel zur Waschmaschine zurück@Den Waschmaschinenschlüssel bitte
-Kein Strom;false
-Die Glühbirne ist durchgebrannt;false
+Wäsche;true;template2;"";Ich gebe den Schlüssel zur Waschmaschine zurück.@Den Waschmaschinenschlüssel bitte.
+Ausfälle;true;template2;"";Es gibt keinen Strom im Raum.@Es gibt kein Wasser.@Die Waschmaschine funktioniert nicht.@Glühbirne durchgebrannt.
 Danke;false
