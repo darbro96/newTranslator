@@ -1,0 +1,66 @@
+html, body {
+    height: 100%;
+}
+.bg-background{
+    background-color: #ECEEF2;
+}
+.bg-gradient {
+    background-image: linear-gradient(to left bottom, #800123, #6f0020, #5e001c, #4d0117, #3d0112);
+}
+#conversationBox{
+    overflow: auto;
+    height: 70vh;
+}
+#typicalPhrases{
+    height: 100vh;
+    background-image: linear-gradient(to left bottom, #800123, #6f0020, #5e001c, #4d0117, #3d0112);
+    text-align: center;
+    overflow: auto;
+}
+#conversation {
+    min-height: 100vh;
+}
+.REPLY {
+    font-weight: bold;
+    text-align: right;
+    padding: 10px 20px;
+    box-sizing: content-box;
+    border: 1px solid #800123;
+    border-radius: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #800123;
+    background: #ffffff;
+    margin-bottom: 12px;
+}
+.MESSAGE {
+    font-weight: bold;
+    text-align: left;
+    padding: 10px 20px;
+    box-sizing: content-box;
+    border-radius: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #ffffff;
+    background: #800123;
+    margin-bottom: 12px;
+}
+.speechBubble {
+    min-width: 60%;
+    float: left;
+}
+.typicalPhrasesButton {
+    width: 70%;
+    margin: 0 auto;
+    box-sizing: content-box;
+    cursor: pointer;
+    padding: 10px 30px;
+    margin-bottom: 20px;
+    border-radius: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #800123;
+    background: #ffffff;
+}
+
+
