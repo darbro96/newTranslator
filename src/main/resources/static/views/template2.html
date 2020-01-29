@@ -1,7 +1,7 @@
 <script type="text/javascript" src="../js/lib/angular.min.js"></script>
-<div ng-controller="controller">
+<div ng-controller="controller" class="p-4">
     <br>
     <div data-ng-repeat="r in options">
-        <button ng-click="closeThisDialog(r)" id="wyborDialog">{{r}}</button>
+        <button class="typicalPhrasesButtonDialog p-2 mb-3 font-weight-bold bg-light btn-block" ng-click="closeThisDialog(r)">{{r}}</button>
     </div>
 </div>

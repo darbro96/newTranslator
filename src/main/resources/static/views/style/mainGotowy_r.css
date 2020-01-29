@@ -20,7 +20,7 @@ html, body {
 #conversation {
     min-height: 100vh;
 }
-.REPLY {
+.MESSAGE {
     font-weight: bold;
     text-align: right;
     padding: 10px 20px;
@@ -33,7 +33,7 @@ html, body {
     background: #ffffff;
     margin-bottom: 12px;
 }
-.MESSAGE {
+.REPLY {
     font-weight: bold;
     text-align: left;
     padding: 10px 20px;

@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head><title>UTP Translate</title>
     <link rel="stylesheet" href="views/style/mainGotowy.css" type="text/css">
@@ -31,7 +32,7 @@
 <div id="Container" ng-show="hasCode">
     <nav class="navbar navbar-expand-md bg-dark navbar-dark fixed-top">
         <!-- Brand -->
-
+        <a class="navbar-brand px-2" href="#"><h4><i class="far fa-comments"></i> MessengerTuTu</h4></a>
 
         <!-- Toggler/collapsibe Button -->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
@@ -40,44 +41,34 @@
 
         <!-- Navbar links -->
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="#"><img src="../img/flagENG.png" height="40" ng-click="setEn()"/></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#"><img src="../img/flagGER.png" height="40" ng-click="setDe()"/></a>
-                </li>
+            <div class="navbar-nav ml-auto">
+                <button class="btn btn-secondary rounded-0 mx-2" type="button"><img src="../img/flagENG.png" alt="eng" height="40" ng-click="setEn()"/></button>
+                <button class="btn btn-secondary rounded-0 mx-2" type="button"><img src="../img/flagGER.png" alt="ger" height="40" ng-click="setDe()"/></button>
 
-            </ul>
+            </div>
         </div>
     </nav>
 
     <div class="container-fluid h-100">
         <div class="row h-100">
-            <div class="col-sm-4 bg-gradient pt-5 col-sm-push-8" id="typicalPhrases">
+            <div class="col-sm-4 bg-gradient pt-5" id="typicalPhrases">
 
-                <div class="mx-auto p-5 w-100 text-white text-center"><h2>{{categories}}</h2></div>
+                <div class="mx-auto pt-5 pb-2 w-100 text-white text-center"><h2>{{categories}}</h2></div>
                 <div class="typicalPhrasesButton" data-ng-repeat="q in faq">
-                    <div ng-click="odpFaq(q)">{{q.text}}</div>
+                    <div ng-click="odpFaq(q)" onclick="updateScroll()">{{q.text}}</div>
                 </div>
             </div>
-            <div class="col-sm-8 pt-5 bg-background col-sm-pull-4" id="conversation">
-                <div class="mx-auto p-5 w-100 text-center"><h2>{{yourConversation}} Code: {{code}}</h2></div>
+            <div class="col-sm-8 pt-5 bg-background" id="conversation">
+                <div class="mx-auto pt-5 pb-2 w-100 text-center"><h2>{{yourConversation}} Code: {{code}}</h2></div>
                 <div class="container" id="conversationBox">
 
 
-                    <div class="speechBubble m-2 float-right">
-                        <div class="REPLY">
-                            The key to the washing machine, please.
-                        </div>
-                    </div>
 
-                    <div class="speechBubble m-2 float-left">
-                        <div class="{{r.messageType}} shadow" data-ng-repeat="r in receivedText">
+                    <div data-ng-repeat="r in receivedText" class="speechBubble m-2 {{r.messageType=='MESSAGE'?'float-left':'float-right'}}" >
+                        <div class="{{r.messageType}} shadow" >
                             {{r.content}}
                         </div>
                     </div>
-
 
                 </div>
             </div>
@@ -94,13 +85,14 @@
         <div class="col-sm-8 bg-background">
             <div class="container">
                 <div class="input-group pb-3">
-                    <input type="text" class="form-control form-control-lg rounded-0 font-weight-bold shadow-lg"
-                           placeholder="Wpisz tekst ..." ng-model="tresc" ng-keydown="$event.keyCode === 13 && odpowiedz()">
+                    <button class="btn btn-secondary rounded-0 fontGlobal" type="button" ng-show="speakLang=='en-EN'" ng-click="activeVoice()">Speech <i class="fas fa-volume-mute" ng-show="voiceActivated"></i><i class="fas fa-volume-up" ng-hide="voiceActivated"></i></button>
+                    <input type="text" class="form-control form-control-lg rounded-0 font-weight-bold shadow-lg fontGlobal"
+                           placeholder="Type you message ..." ng-model="tresc" ng-keydown="$event.keyCode === 13 && odpowiedz()">
                     <div class="input-group-append">
-                        <button class="btn btn-primary rounded-0" type="button" ng-click="odpowiedz()">OK <i class="far fa-paper-plane"></i>
+                        <button class="btn btn-danger btn-lg rounded-0 fontGlobal" type="button" ng-click="odpowiedz()">Send
                         </button>
-                        <button class="btn btn-danger rounded-0" type="button">Cancel <i class="far fa-trash-alt"></i>
-                        </button>
+                        <button class="btn btn-secondary rounded-0 fontGlobal" type="button" ng-click="clear()">Clear <i class="fas fa-trash"></i></button>
+
                     </div>
                 </div>
             </div>
@@ -155,7 +147,12 @@
 
 <!--	</div>-->
 <!--</div> -->
-
+<script>
+    function updateScroll() {
+        var objDiv = document.getElementById("conversationBox");
+        objDiv.scrollTop = objDiv.scrollHeight;
+    }
+</script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ng-dialog/1.0.1/js/ngDialog.min.js"></script>
 
@@ -208,6 +205,7 @@
                                 $scope.say($scope.receivedText[$scope.receivedText.length - 1].content, $scope.actLang);
                                 $scope.said = true;
                             }
+                            updateScroll();
                         }), function (err) {
                             console.log("err", err);
                         };
@@ -216,7 +214,7 @@
                     console.log("err - FAQ", err);
                 };
             }
-        }, 500);
+        }, 300);
 
         $scope.usun = function (id) {
             $http.delete("/api/del/" + id).then(function (value) {
@@ -253,6 +251,16 @@
             // 				console.log("err", err);
             // 			};
             // }
+
+            $scope.clear=function()
+            {
+                $http.delete("/api/del/code/"+$scope.code).then(function (value) {
+                    console.log("ok", "deleted All");
+                }), function (err) {
+                    console.log("err", err);
+                };
+                //window.location.reload(true);
+            }
 
             $http.post("/api/send/type=MESSAGE/code=" + $scope.code + "/" + $scope.actLang + "/message=" + $scope.tresc.replace(" ", "%20") + "/o=" + $scope.tresc).then(function (value) {
                 console.log("ok", value);

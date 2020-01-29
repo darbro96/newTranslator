@@ -1,6 +1,6 @@
 	<html>
 <head><title>UTP Translate</title>
-	<link rel="stylesheet" href="../views/style/main_r.css" type="text/css">
+	<link rel="stylesheet" href="../views/style/mainGotowy_r.css" type="text/css">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
 	<script type="text/javascript" src="../js/lib/angular.min.js"></script>
@@ -28,101 +28,197 @@
 	</div>
 
 </div>
+
+
+
 <div id="Container" ng-show="hasCode">
 
-	<nav class="navbar navbar-expand-md bg-dark navbar-dark fixed-top">
-		<!-- Brand -->
-		<a class="navbar-brand" href="#"><img src="../img/logoUTP.png" width="65%"/></a>
 
-		<!-- Toggler/collapsibe Button -->
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-			<span class="navbar-toggler-icon"></span>
-		</button>
+	<div class="container-fluid h-100">
+		<div class="row h-100">
+			<div class="col-sm-4 bg-gradient pt-2" id="typicalPhrases">
 
-		<!-- Navbar links -->
-		<div class="collapse navbar-collapse" id="collapsibleNavbar">
-			<ul class="navbar-nav ml-auto">
-<!--				<li class="nav-item">-->
-<!--					<a class="nav-link" href="#"><img src="../img/flagENG.png" height="50" ng-click="setEn()"/></a>-->
-<!--				</li>-->
-<!--				<li class="nav-item">-->
-<!--					<a class="nav-link" href="#"><img src="../img/flagGER.png" height="50" ng-click="setDe()"/></a>-->
-<!--				</li>-->
+				<div class="mx-auto pb-2 w-100 text-white text-center"><h2>Zwroty</h2></div>
 
-			</ul>
-		</div>
-	</nav>
+				<div class="typicalPhrasesButton">
+					<div ng-click="odpowiedz('Yes','Tak')">Tak.</div>
+				</div>
+				<div class="typicalPhrasesButton">
+					<div ng-click="odpowiedz('No','Nie')">Nie.</div>
+				</div>
+				<div class="typicalPhrasesButton">
+					<div ng-click="odpowiedz('I do not understand.','Nie rozumiem')">Nie rozumiem.</div>
+				</div>
+				<div class="typicalPhrasesButton">
+					<div ng-click="odpowiedz('Show your dormitory card.','Pokaż kartę mieszkańca')">Pokaż kartę mieszkańca.</div>
+				</div>
 
 
-	<div class="lewo col-sm-4"><br>
-		<br>
-		<br>
-
-
-		<h1>Podpowiedzi</h1>
-
-		<div class="przycisk">
-			<div ng-click="odpowiedz('Yes','Tak')">Tak.</div>
-		</div>
-		<div class="przycisk">
-			<div ng-click="odpowiedz('No','Nie')">Nie.</div>
-		</div>
-		<div class="przycisk">
-			<div ng-click="odpowiedz('I do not understand.','Nie rozumiem')">Nie rozumiem.</div>
-		</div>
-		<div class="przycisk">
-			<div ng-click="odpowiedz('Show your dormitory card.','Pokaż kartę mieszkańca')">Pokaż kartę mieszkańca.</div>
-		</div>
-
-	</div>
-	<div class="prawo col-sm-8">
-		<div id="tytul"><h1>Konwersacja</h1>
-
-			<div>
-				Kod: {{code}}
 			</div>
+			<div class="col-sm-8 pt-2 bg-background" id="conversation">
+				<div class="mx-auto pb-2 w-100 text-center"><h2>Konwersacja</h2><div>Code: {{code}}</div></div>
+				<div class="container" id="conversationBox">
 
+
+
+					<div data-ng-repeat="r in receivedText" class="speechBubble m-2 {{r.messageType=='MESSAGE'?'float-right':'float-left'}}" >
+						<div class="{{r.messageType}} shadow" >
+							{{r.messageType=="REPLY"?r.originalContent:r.content}}
+						</div>
+					</div>
+
+				</div>
+			</div>
 		</div>
-
-
-
-		<div class="prawoSrodek">
-
-			<!--			<div class="alert alert-success">-->
-			<!--				<strong>Success!</strong> Indicates a successful or positive action.-->
-			<!--			</div>-->
-
-
-			<div class="{{r.messageType}}" data-ng-repeat="r in receivedText">
-				<!--				Odebrano <b> {{r.timeStamp}} </b><br>-->
-				<!--				Treść: <b>{{r.content}}</b>-->
-				<!--				<button ng-click="usun(r.id)">Usuń</button>-->
-				<!--				<button ng-click="say(r.content,speakLang)">Say</button>-->
-				{{r.messageType=="REPLY"?r.originalContent:r.content}}
-			</div></div>
-		<!--			<div class="wiadomoscOne">-->
-		<!--				tresc-->
-		<!--			</div>-->
-		<!--			<div class="wiadomoscTwo">-->
-		<!--				tresc-->
-		<!--			</div>-->
-		<!--			<div class="wiadomoscOne">-->
-		<!--				tresc-->
-		<!--			</div>-->
-		<!--			<div class="wiadomoscTwo">-->
-		<!--				tresc-->
-		<!--			</div>-->
-		<div id="wpisz">
-			<input type="image" src="{{micSrc}}" width="30" ng-click="activeVoice()">
-			<input type="text" value="Wprowadz tekst..." ng-model="tresc" ng-keydown="$event.keyCode === 13 && odpowiedz2()">
-			<input type="image" src="../img/send.png" ng-click="odpowiedz2()">
-			<input type="button" value="x" ng-click="clear()">
-
-		</div>
-
-
 	</div>
+
 </div>
+<div class="container-fluid fixed-bottom">
+
+	<div class="row">
+		<div class="col-sm-4">
+			<div class="input-group pb-3">
+
+			</div>
+		</div>
+		<div class="col-sm-8 bg-background">
+			<div class="container">
+				<div class="input-group pb-3">
+					<button class="btn btn-secondary rounded-0 fontGlobal" type="button" ng-click="activeVoice()">Mowa <i class="fas fa-volume-mute" ng-show="voiceActivated"></i><i class="fas fa-volume-up" ng-hide="voiceActivated"></i></button>
+					<input type="text" class="form-control form-control-lg rounded-0 font-weight-bold shadow-lg fontGlobal"
+						   placeholder="Wpisz tekst ..." ng-model="tresc" ng-keydown="$event.keyCode === 13 && odpowiedz2()">
+					<div class="input-group-append">
+						<button class="btn btn-danger btn-lg rounded-0 fontGlobal" type="button" ng-click="odpowiedz2()">Wyślij
+						</button>
+						<button class="btn btn-secondary rounded-0 fontGlobal" type="button" ng-click="clear()">Czyść <i class="fas fa-trash"></i></button>
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<div id="Container" ng-show="hasCode">-->
+
+<!--	<nav class="navbar navbar-expand-md bg-dark navbar-dark fixed-top">-->
+<!--		&lt;!&ndash; Brand &ndash;&gt;-->
+<!--		<a class="navbar-brand" href="#"><img src="../img/logoUTP.png" width="65%"/></a>-->
+
+<!--		&lt;!&ndash; Toggler/collapsibe Button &ndash;&gt;-->
+<!--		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">-->
+<!--			<span class="navbar-toggler-icon"></span>-->
+<!--		</button>-->
+
+<!--		&lt;!&ndash; Navbar links &ndash;&gt;-->
+<!--		<div class="collapse navbar-collapse" id="collapsibleNavbar">-->
+<!--			<ul class="navbar-nav ml-auto">-->
+<!--&lt;!&ndash;				<li class="nav-item">&ndash;&gt;-->
+<!--&lt;!&ndash;					<a class="nav-link" href="#"><img src="../img/flagENG.png" height="50" ng-click="setEn()"/></a>&ndash;&gt;-->
+<!--&lt;!&ndash;				</li>&ndash;&gt;-->
+<!--&lt;!&ndash;				<li class="nav-item">&ndash;&gt;-->
+<!--&lt;!&ndash;					<a class="nav-link" href="#"><img src="../img/flagGER.png" height="50" ng-click="setDe()"/></a>&ndash;&gt;-->
+<!--&lt;!&ndash;				</li>&ndash;&gt;-->
+
+<!--			</ul>-->
+<!--		</div>-->
+<!--	</nav>-->
+
+
+<!--	<div class="lewo col-sm-4"><br>-->
+<!--		<br>-->
+<!--		<br>-->
+
+
+<!--		<h1>Podpowiedzi</h1>-->
+
+<!--		<div class="przycisk">-->
+<!--			<div ng-click="odpowiedz('Yes','Tak')">Tak.</div>-->
+<!--		</div>-->
+<!--		<div class="przycisk">-->
+<!--			<div ng-click="odpowiedz('No','Nie')">Nie.</div>-->
+<!--		</div>-->
+<!--		<div class="przycisk">-->
+<!--			<div ng-click="odpowiedz('I do not understand.','Nie rozumiem')">Nie rozumiem.</div>-->
+<!--		</div>-->
+<!--		<div class="przycisk">-->
+<!--			<div ng-click="odpowiedz('Show your dormitory card.','Pokaż kartę mieszkańca')">Pokaż kartę mieszkańca.</div>-->
+<!--		</div>-->
+
+<!--	</div>-->
+<!--	<div class="prawo col-sm-8">-->
+<!--		<div id="tytul"><h1>Konwersacja</h1>-->
+
+<!--			<div>-->
+<!--				Kod: {{code}}-->
+<!--			</div>-->
+
+<!--		</div>-->
+
+
+
+<!--		<div class="prawoSrodek">-->
+
+<!--			&lt;!&ndash;			<div class="alert alert-success">&ndash;&gt;-->
+<!--			&lt;!&ndash;				<strong>Success!</strong> Indicates a successful or positive action.&ndash;&gt;-->
+<!--			&lt;!&ndash;			</div>&ndash;&gt;-->
+
+
+<!--			<div class="{{r.messageType}}" data-ng-repeat="r in receivedText">-->
+<!--				&lt;!&ndash;				Odebrano <b> {{r.timeStamp}} </b><br>&ndash;&gt;-->
+<!--				&lt;!&ndash;				Treść: <b>{{r.content}}</b>&ndash;&gt;-->
+<!--				&lt;!&ndash;				<button ng-click="usun(r.id)">Usuń</button>&ndash;&gt;-->
+<!--				&lt;!&ndash;				<button ng-click="say(r.content,speakLang)">Say</button>&ndash;&gt;-->
+<!--				{{r.messageType=="REPLY"?r.originalContent:r.content}}-->
+<!--			</div></div>-->
+<!--		&lt;!&ndash;			<div class="wiadomoscOne">&ndash;&gt;-->
+<!--		&lt;!&ndash;				tresc&ndash;&gt;-->
+<!--		&lt;!&ndash;			</div>&ndash;&gt;-->
+<!--		&lt;!&ndash;			<div class="wiadomoscTwo">&ndash;&gt;-->
+<!--		&lt;!&ndash;				tresc&ndash;&gt;-->
+<!--		&lt;!&ndash;			</div>&ndash;&gt;-->
+<!--		&lt;!&ndash;			<div class="wiadomoscOne">&ndash;&gt;-->
+<!--		&lt;!&ndash;				tresc&ndash;&gt;-->
+<!--		&lt;!&ndash;			</div>&ndash;&gt;-->
+<!--		&lt;!&ndash;			<div class="wiadomoscTwo">&ndash;&gt;-->
+<!--		&lt;!&ndash;				tresc&ndash;&gt;-->
+<!--		&lt;!&ndash;			</div>&ndash;&gt;-->
+<!--		<div id="wpisz">-->
+<!--			<input type="image" src="{{micSrc}}" width="30" ng-click="activeVoice()">-->
+<!--			<input type="text" value="Wprowadz tekst..." ng-model="tresc" ng-keydown="$event.keyCode === 13 && odpowiedz2()">-->
+<!--			<input type="image" src="../img/send.png" ng-click="odpowiedz2()">-->
+<!--			<input type="button" value="x" ng-click="clear()">-->
+
+<!--		</div>-->
+
+
+<!--	</div>-->
+<!--</div>-->
+
+<script>
+	function updateScroll() {
+		var objDiv = document.getElementById("conversationBox");
+		objDiv.scrollTop = objDiv.scrollHeight;
+	}
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ng-dialog/1.0.1/js/ngDialog.min.js"></script>
 
 <script type="text/javascript">
@@ -174,6 +270,7 @@
 								$scope.say($scope.receivedText[$scope.receivedText.length-1].content);
 								$scope.said=true;
 							}
+							updateScroll();
 						}), function (err) {
 							console.log("err", err);
 						};
@@ -182,7 +279,7 @@
 					console.log("err - FAQ", err);
 				};
 			}
-		}, 500);
+		}, 300);
 
 		// setInterval(function () {
 		// 	if(!$scope.hasCode)
@@ -277,7 +374,7 @@
 			if($scope.voiceActivated)
 			{
 				$scope.voiceActivated=false;
-				$scope.micSrc="../img/mic2.png";
+				$scope.micSrc='<i class=\"fas fa-volume-mute\"></i>';
 				$scope.say("Głos wyłączony","pl-PL");
 			}
 			else
