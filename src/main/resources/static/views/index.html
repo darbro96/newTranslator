@@ -214,7 +214,7 @@
                     console.log("err - FAQ", err);
                 };
             }
-        }, 300);
+        }, 200);
 
         $scope.usun = function (id) {
             $http.delete("/api/del/" + id).then(function (value) {
@@ -252,15 +252,15 @@
             // 			};
             // }
 
-            $scope.clear=function()
-            {
-                $http.delete("/api/del/code/"+$scope.code).then(function (value) {
-                    console.log("ok", "deleted All");
-                }), function (err) {
-                    console.log("err", err);
-                };
-                //window.location.reload(true);
-            }
+            // $scope.clear=function()
+            // {
+            //     $http.delete("/api/del/code/"+$scope.code).then(function (value) {
+            //         console.log("ok", "deleted All");
+            //     }), function (err) {
+            //         console.log("err", err);
+            //     };
+            //     //window.location.reload(true);
+            // }
 
             $http.post("/api/send/type=MESSAGE/code=" + $scope.code + "/" + $scope.actLang + "/message=" + $scope.tresc.replace(" ", "%20") + "/o=" + $scope.tresc).then(function (value) {
                 console.log("ok", value);

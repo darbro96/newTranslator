@@ -41,16 +41,16 @@
 				<div class="mx-auto pb-2 w-100 text-white text-center"><h2>Zwroty</h2></div>
 
 				<div class="typicalPhrasesButton">
-					<div ng-click="odpowiedz('Yes','Tak')">Tak.</div>
+					<div ng-click="odpowiedz('Tak.','Tak.')">Tak.</div>
 				</div>
 				<div class="typicalPhrasesButton">
-					<div ng-click="odpowiedz('No','Nie')">Nie.</div>
+					<div ng-click="odpowiedz('Nie.','Nie.')">Nie.</div>
 				</div>
 				<div class="typicalPhrasesButton">
-					<div ng-click="odpowiedz('I do not understand.','Nie rozumiem')">Nie rozumiem.</div>
+					<div ng-click="odpowiedz('I do not understand.','Nie rozumiem.')">Nie rozumiem.</div>
 				</div>
 				<div class="typicalPhrasesButton">
-					<div ng-click="odpowiedz('Show your dormitory card.','Pokaż kartę mieszkańca')">Pokaż kartę mieszkańca.</div>
+					<div ng-click="odpowiedz('Show your dormitory card.','Pokaż kartę mieszkańca.')">Pokaż kartę mieszkańca.</div>
 				</div>
 
 
@@ -270,16 +270,16 @@
 								$scope.say($scope.receivedText[$scope.receivedText.length-1].content);
 								$scope.said=true;
 							}
-							updateScroll();
-						}), function (err) {
+						}, function (err) {
 							console.log("err", err);
-						};
+						});
 					}
-				}), function (err) {
+				}, function (err) {
 					console.log("err - FAQ", err);
-				};
+				});
+				updateScroll();
 			}
-		}, 300);
+		}, 200);
 
 		// setInterval(function () {
 		// 	if(!$scope.hasCode)
