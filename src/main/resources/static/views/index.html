@@ -264,6 +264,7 @@
 
             $http.post("/api/send/type=MESSAGE/code=" + $scope.code + "/" + $scope.actLang + "/message=" + $scope.tresc.replace(" ", "%20") + "/o=" + $scope.tresc).then(function (value) {
                 console.log("ok", value);
+                $scope.tresc="";
             }), function (err) {
                 console.log("err", err);
             };
