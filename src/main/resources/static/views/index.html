@@ -59,7 +59,7 @@
                 </div>
             </div>
             <div class="col-sm-8 pt-5 bg-background" id="conversation">
-                <div class="mx-auto pt-5 pb-2 w-100 text-center"><h2>{{yourConversation}} Code: {{code}}</h2></div>
+                <div class="mx-auto pt-5 pb-2 w-100 text-center"><h2>{{yourConversation}}</h2></div>
                 <div class="container" id="conversationBox">
 
 
@@ -176,7 +176,6 @@
         $scope.micSrc = "img/mic2.png";
 
         $scope.code = $location.absUrl().substring($location.absUrl().lastIndexOf("/") + 1);
-        console.log("Kod: ", $scope.code);
         if ($scope.code == "") {
             $scope.hasCode = false;
             $scope.conversationLoaded = false;
@@ -185,21 +184,17 @@
 
         $http.get("/api/faq/" + $scope.actLang).then(function (value) {
             $scope.faq = value.data;
-            console.log("FAQ loaded", value);
         }), function (err) {
-            console.log("err - FAQ", err);
         };
 
         setInterval(function () {
             if ($scope.conversationLoaded) {
                 $http.get("/api/count/" + $scope.code).then(function (value) {
                     if ($scope.conversationSize != value.data) {
-                        console.log("New conversation size", value.data);
                         $scope.conversationSize = value.data;
                         $http.get("/api/getMessages/code=" + $scope.code + "/lang=" + $scope.actLang).then(function (value) {
                             //$http.get("/api/all/"+$scope.actLang).then(function (value) {
                             $scope.receivedText = value.data;
-                            console.log("Conversation Reload", $scope.receivedText);
                             $scope.said = false;
                             if ($scope.voiceActivated && $scope.actLang == "en" && $scope.receivedText[$scope.receivedText.length - 1].messageType == "REPLY" && !$scope.said) {
                                 $scope.say($scope.receivedText[$scope.receivedText.length - 1].content, $scope.actLang);
@@ -207,89 +202,45 @@
                             }
                             updateScroll();
                         }), function (err) {
-                            console.log("err", err);
                         };
                     }
                 }), function (err) {
-                    console.log("err - FAQ", err);
                 };
             }
         }, 200);
 
         $scope.usun = function (id) {
             $http.delete("/api/del/" + id).then(function (value) {
-                console.log("ok", "deleted selected message");
             }), function (err) {
-                console.log("err", err);
             };
             //location.reload();
         };
 
         $scope.usunAll = function () {
             $http.delete("/api/del/all").then(function (value) {
-                console.log("ok", "deleted All");
             }), function (err) {
-                console.log("err", err);
             };
             //location.reload();
         };
 
         $scope.odpowiedz = function () {
-            // if($scope.actLang!="en")
-            // {
-            // 	$http.post("/api/send/type=MESSAGE/code=" + $scope.code+"/"+$scope.actLang + "/message=" + $scope.tresc.replace(" ", "%20")+"/o="+$scope.tresc).then(function (value) {
-            // 		console.log("ok", value);
-            // 	}), function (err) {
-            // 		console.log("err", err);
-            // 	};
-            // }
-            // else
-            // {
-            // 	$http.post("/api/send/type=REPLY/code=" + $scope.code + "/message=" + $scope.tresc.replace(" ", "%20")).then(function (value) {
-            // 				console.log("ok", $scope.code);
-            // 			}), function (err) {
-            // 				console.log("err", err);
-            // 			};
-            // }
-
-            // $scope.clear=function()
-            // {
-            //     $http.delete("/api/del/code/"+$scope.code).then(function (value) {
-            //         console.log("ok", "deleted All");
-            //     }), function (err) {
-            //         console.log("err", err);
-            //     };
-            //     //window.location.reload(true);
-            // }
-
             $http.post("/api/send/type=MESSAGE/code=" + $scope.code + "/" + $scope.actLang + "/message=" + $scope.tresc.replace(" ", "%20") + "/o=" + $scope.tresc).then(function (value) {
-                console.log("ok", value);
                 $scope.tresc="";
             }), function (err) {
-                console.log("err", err);
             };
         };
 
-        // $scope.odpowiedz=function(){
-        // 	$scope.tresc+="1";
-        // 	console.log("KLIKNIĘTO 1!!!!",$scope.tresc);
-        // };
-
         $scope.generujKod = function () {
             $http.get("api/reception/generate").then(function (value) {
-                console.log("code", value.data.code);
                 $scope.code = value.data.code;
             }), function (err) {
-                console.log("err", err);
             };
         };
 
         $scope.tlumacz = function () {
             $http.get("/api/getMessages/code=" + $scope.code + "/lang=" + $scope.actLang).then(function (value) {
                 $scope.receivedText = value.data;
-                console.log("Conversation", "Reload [" + $scope.actLang + "]");
             }), function (err) {
-                console.log("err", err);
             };
         }
 
@@ -303,9 +254,7 @@
 
             $http.get("/api/faq/" + $scope.actLang).then(function (value) {
                 $scope.faq = value.data;
-                console.log("FAQ loaded", value);
             }), function (err) {
-                console.log("err - FAQ", err);
             };
 
             $scope.tlumacz();
@@ -321,9 +270,7 @@
 
             $http.get("/api/faq/" + $scope.actLang).then(function (value) {
                 $scope.faq = value.data;
-                console.log("FAQ loaded", value);
             }), function (err) {
-                console.log("err - FAQ", err);
             };
 
             $scope.tlumacz();
@@ -333,14 +280,11 @@
             var nr = prompt("Numer pokoju:");
             var wiadomosc = "Pokój " + nr;
             $http.post("/api/send/type=MESSAGE/code=" + $scope.code + "/" + $scope.actLang + "/message=" + wiadomosc.replace(" ", "%20")).then(function (value) {
-                console.log("Send Pokój " + nr, value);
             }), function (err) {
-                console.log("err", err);
             };
         };
 
         $scope.odpFaq = function (faq) {
-            console.log("odp FAQ", faq);
             $scope.options = faq.options;
 
             if (faq.dialog) {
@@ -354,21 +298,16 @@
                 $scope.t = faq.returnedText;
 
                 dialog.closePromise.then(function (data) {
-                    console.log("Data popup", data);
                     $scope.insertedRoom = data.value;
                     if (!$scope.insertedRoom.includes("$")) {
                         $http.post("/api/send/type=MESSAGE/code=" + $scope.code + "/" + $scope.actLang + "/message=" + faq.returnedText.replace('""', "") + " " + $scope.insertedRoom.replace(" ", "%20")).then(function (value) {
-                            console.log("odpFAQ", value);
                         }), function (err) {
-                            console.log("err", err);
                         };
                     }
                 });
             } else {
                 $http.post("/api/send/type=MESSAGE/code=" + $scope.code + "/" + $scope.actLang + "/message=" + faq.text.replace(" ", "%20")).then(function (value) {
-                    console.log("odpFAQ", value);
                 }), function (err) {
-                    console.log("err", err);
                 };
             }
 
@@ -376,28 +315,20 @@
 
         $scope.setCode = function () {
             $scope.code = $scope.insertCode;
-            console.log("code", $scope.code);
 
             $http.post("/api/send/type=MESSAGE/code=" + $scope.code + "/test").then(function (value) {
-                console.log("test message send", "ok");
                 $scope.hasCode = true;
             }), function (err) {
-                console.log("err", err);
             };
 
             $http.get("/api/getMessages/code=" + $scope.code + "/lang=" + $scope.actLang).then(function (value) {
-                //$http.get("/api/all/"+$scope.actLang).then(function (value) {
                 $scope.receivedText = value.data;
                 $scope.conversationLoaded = true;
-                console.log("Conversation loaded on start", "ok");
                 $http.get("/api/count/" + $scope.code).then(function (value) {
                     $scope.conversationSize = value.data;
-                    console.log("Conversation size", value.data);
                 }), function (err) {
-                    console.log("err - FAQ", err);
                 };
             }), function (err) {
-                console.log("Conversation loaded on start", err);
             };
 
             window.location.href = '/' + $scope.code;
@@ -406,14 +337,11 @@
         //przyciski w popup
         $scope.click1 = function (number) {
             $scope.insertedRoom += number;
-            console.log("Room", $scope.insertedRoom);
         };
 
         $scope.say = function (text, language) {
-            console.log("Say in language", language);
             var msg = new SpeechSynthesisUtterance();
             var voices = window.speechSynthesis.getVoices();
-            console.log("Dostepne głosy", voices);
             // msg.voice = voices[10];
             msg.voiceURI = 'native';
             msg.volume = 1;
@@ -438,6 +366,13 @@
 
         $scope.przeladuj = function () {
             window.location.reload(true);
+        };
+
+        $scope.clear=function()
+        {
+            $http.delete("/api/del/code/"+$scope.code).then(function (value) {
+            }), function (err) {
+            };
         };
 
     });
